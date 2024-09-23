@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">QuickStock</string>
+    <string name="welcome_msg">Welcome to QuickStock</string>
+</resources>
