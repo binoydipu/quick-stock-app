@@ -1,1 +1,81 @@
+.gradle
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
 /build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Gradle files
+.gradle/
+*.iml
+/local.properties
+
+# IntelliJ/Android Studio files
+.idea/
+.idea/*
+
+# Ignore build output directories
+/build/
+.cxx/
+.externalNativeBuild/
+
+# Ignore generated files
+captures/
+.DS_Store
+
+# Firebase and Google Services files
+/google-services.json
+/google-services-debug.json
+/google-services-release.json
+/firebase-debug.log
+
+# Cloudinary config files
+# If you're using Cloudinary SDK, check if it generates any local config files and ignore them
+
+
+# Log files
+*.log
+
+# OS-specific files
+Thumbs.db
+*.swp
+
+# Ignore crashlytics and fabric files
+crashlytics.properties
+fabric.properties
+
+# ProGuard files
+proguard/
+
+# Temporary files
+*.temp
+*.tmp
+*.bak
+*.orig
+
+# Miscellaneous
+*.class
+*.apk
+*.keystore
+*.jks
+output.json
+
+# Ignore NDK directories
+*.ndk
+.obj/
+.libs/
+
+# Generated JSON files for dependencies
+/json/
+
+# Android Play Asset Delivery
+.PlayAssetDelivery
+
+# Node.js dependencies (if you're using React Native or node modules)
+node_modules/
