@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Name"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -52,6 +53,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
@@ -63,7 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Admin/Staff Id"
+                android:hint="Staff Id"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -75,6 +78,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/id_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
@@ -87,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Email"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -98,6 +103,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
@@ -111,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Password"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -119,10 +126,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et3"
+                app:passwordToggleTint="@color/grayBlue"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
@@ -135,6 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Confirm Password"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -143,10 +153,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et4"
+                app:passwordToggleTint="@color/grayBlue"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirm_password_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
@@ -159,6 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Mobile"
+                app:hintTextColor="@color/grayBlue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -170,44 +183,56 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/mobile_et"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <RadioGroup
-                android:id="@+id/radio_grp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+<!--            <RadioGroup-->
+<!--                android:id="@+id/radio_grp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/et6">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/as_admin_rb"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="as Admin"-->
+<!--                    android:paddingEnd="5dp"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/as_staff_rb"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="as Staff"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--            </RadioGroup>-->
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:progressTint="@color/deepBlue"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
+                android:visibility="gone"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et6">
-
-                <RadioButton
-                    android:id="@+id/as_admin_rb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="as Admin"
-                    android:paddingEnd="5dp"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/as_staff_rb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="as Staff"
-                    android:textSize="16sp" />
-
-            </RadioGroup>
+                app:layout_constraintTop_toBottomOf="@+id/et6" />
 
             <Button
                 android:id="@+id/register_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="60dp"
                 android:padding="12dp"
                 android:text="Sign Up"
                 android:textColor="@color/white"
@@ -215,7 +240,7 @@
                 android:backgroundTint="@color/deepBlue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radio_grp" />
+                app:layout_constraintTop_toBottomOf="@+id/et6" />
 
 
             <TextView

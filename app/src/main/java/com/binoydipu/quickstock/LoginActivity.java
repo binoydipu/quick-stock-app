@@ -1,32 +1,47 @@
 package com.binoydipu.quickstock;
 
+import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail, etPassword;
-
     private Button btnLogin;
+    private TextView tvRegister, tvForgotPassword, tvResendVerifyEmail;
+    private ProgressBar progressBar;
 
-    private TextView tvRegister, tvForgotPassword;
+    private FirebaseAuth mAuth;
 
-    private static final Pattern emailPattern = Pattern.compile("^[a-z0-9]+@[a-z]+\\.[a-z.]{2,}$"); // abc@something.com
-    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\\w\\s]).{6,32}$"); // aA@12345
+    public static final String TAG = "LoginActivity";
+
+    @Override
+    protected void onStart() { // already logged in
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null && currentUser.isEmailVerified()) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.login_btn);
         tvRegister = findViewById(R.id.register_text);
         tvForgotPassword = findViewById(R.id.forgot_pass_text);
+        tvResendVerifyEmail = findViewById(R.id.resend_ver_email_text);
+        progressBar = findViewById(R.id.progress_circular);
+        mAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(v -> {
             String email = Objects.requireNonNull(etEmail.getText()).toString().trim();
@@ -51,12 +69,9 @@ public class LoginActivity extends AppCompatActivity {
             } else if (password.isEmpty()) {
                 etPassword.setError("Required field!");
                 etPassword.requestFocus();
-            } else if(!passwordPattern.matcher(password).matches()) {
-                etPassword.setError("at least a lowercase, a uppercase, a digit and a special character required");
-                etPassword.requestFocus();
             } else {
-                // TODO: Login with email password
-                Toast.makeText(this, "Hello " + email + ", " + password, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.VISIBLE);
+                loginWithFirebase(email, password);
             }
         });
         tvRegister.setOnClickListener(v -> {
@@ -68,7 +83,56 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Under Work", Toast.LENGTH_SHORT).show();
             clearSelections();
         });
+        tvResendVerifyEmail.setOnClickListener(v -> {
+            mAuth = FirebaseAuth.getInstance();
+            sendEmailVerification(mAuth.getCurrentUser());
+        });
     }
+
+    private void loginWithFirebase(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    progressBar.setVisibility(View.GONE);
+                    if(task.isSuccessful()) {
+                        Log.d(TAG, "loginUserWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if(user != null && user.isEmailVerified()) {
+                            Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please Verify Your Email!", Toast.LENGTH_SHORT).show();
+                            tvResendVerifyEmail.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else {
+                        Log.w(TAG, " "+ task.getException());
+                        if(task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            Toast.makeText(getApplicationContext(), "User Does Not Exists!", Toast.LENGTH_SHORT).show();
+                        } else if(task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void sendEmailVerification(FirebaseUser user) {
+        if (user != null && !user.isEmailVerified()) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+                        mAuth.signOut();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Verification Email Sent.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Error Sending Verification Email.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
     private void clearSelections() {
         etEmail.setText("");
         etEmail.clearFocus();

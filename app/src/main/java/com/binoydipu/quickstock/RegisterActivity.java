@@ -1,36 +1,55 @@
 package com.binoydipu.quickstock;
 
+import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
+import static com.binoydipu.quickstock.constants.RegexPatterns.idPattern;
+import static com.binoydipu.quickstock.constants.RegexPatterns.namePattern;
+import static com.binoydipu.quickstock.constants.RegexPatterns.passwordPattern;
+import static com.binoydipu.quickstock.constants.RegexPatterns.phonePattern;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.binoydipu.quickstock.services.auth.AuthUser;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText etName, etID, etEmail, etPassword, etConfirmPassword, etMobile;
     private Button btnRegister;
     private TextView tvLogin;
-    private RadioButton adminRadioButton, staffRadioButton;
+    private ProgressBar progressBar;
 
-    private static final Pattern namePattern = Pattern.compile("^[a-zA-Z .-]+$"); // letters, space, dot, dash
-    private static final Pattern idPattern = Pattern.compile("^[0-9]{5}$"); // 5 digits number
-    private static final Pattern emailPattern = Pattern.compile("^[a-z0-9]+@[a-z]+\\.[a-z.]{2,}$"); // abc@something.com
-    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\\w\\s]).{6,32}$"); // aA@12345
-    private static final Pattern phonePattern = Pattern.compile("^(\\+88)?01[2-9][0-9]{8}$"); // (+88) 01 7 12345678
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
+
+    public static final String TAG = "RegisterActivity";
+    public static final String userCollection = "users";
+
+    @Override
+    protected void onStart() { // already logged in
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +64,9 @@ public class RegisterActivity extends AppCompatActivity {
         etMobile = findViewById(R.id.mobile_et);
         btnRegister = findViewById(R.id.register_btn);
         tvLogin = findViewById(R.id.login_text);
-        adminRadioButton = findViewById(R.id.as_admin_rb);
-        staffRadioButton = findViewById(R.id.as_staff_rb);
+        progressBar = findViewById(R.id.progress_circular);
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         btnRegister.setOnClickListener(v -> {
             String name = Objects.requireNonNull(etName.getText()).toString().trim();
@@ -77,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                 etPassword.setError("Required field!");
                 etPassword.requestFocus();
             } else if(!passwordPattern.matcher(password).matches()) {
-                etPassword.setError("at least a lowercase, a uppercase, a digit and a special character required");
+                etPassword.setError("at least a lowercase, a uppercase, a digit, a special character and length[6, 32] required");
                 etPassword.requestFocus();
             } else if (confirmPassword.isEmpty()) {
                 etConfirmPassword.setError("Required field!");
@@ -91,21 +111,88 @@ public class RegisterActivity extends AppCompatActivity {
             } else if(!phonePattern.matcher(mobile).matches()) {
                 etMobile.setError("Invalid Mobile Number");
                 etMobile.requestFocus();
-            } else if(!adminRadioButton.isChecked() && !staffRadioButton.isChecked()) {
-                Toast.makeText(this, "Select Your Position", Toast.LENGTH_SHORT).show();
             } else {
-                String position = adminRadioButton.isChecked() ? adminRadioButton.getText().toString() : staffRadioButton.getText().toString();
-                Toast.makeText(this, "Hello: " + name + " " + position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                clearSelections();
+                progressBar.setVisibility(View.VISIBLE);
+                createUserWithFirebase(email, password, isSuccessful -> {
+                    if (isSuccessful) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+
+                        assert user != null;
+                        String userId = user.getUid();
+
+                        storeUserInfoInFirestore(userId, name, id, email, mobile, user.isEmailVerified(), isInfoStored -> {
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        });
+                    }
+                });
             }
         });
         tvLogin.setOnClickListener(v -> {
+            mAuth.signOut();
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
-            clearSelections();
+            finish();
         });
+    }
+
+    public interface OnUserCreationListener {
+        void onUserCreated(boolean isSuccessful);
+    }
+
+    public interface OnUserInfoStoredListener {
+        void onUserInfoStored(boolean isInfoStored);
+    }
+
+    private void createUserWithFirebase(String email, String password, OnUserCreationListener listener) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    progressBar.setVisibility(View.GONE);
+                    if(task.isSuccessful()) {
+                        Log.d(TAG, "createUserWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        assert user != null;
+                        sendEmailVerification(user);
+                        Toast.makeText(getApplicationContext(), "Account Created!", Toast.LENGTH_SHORT).show();
+                        listener.onUserCreated(true); // Notify success
+                    } else {
+                        Log.w(TAG, " "+ task.getException());
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException){
+                            Toast.makeText(getApplicationContext(), "User Already Exists!!", Toast.LENGTH_SHORT).show();
+                        } else{
+                            Toast.makeText(getApplicationContext(), "Authentication Failed!", Toast.LENGTH_SHORT).show();
+                        }
+                        listener.onUserCreated(false); // Notify failure
+                    }
+                });
+    }
+
+    private void storeUserInfoInFirestore(String userId, String name, String id, String email, String mobile, boolean emailVerified, OnUserInfoStoredListener listener) {
+        DocumentReference db = firestore.collection(userCollection).document(userId);
+        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified);
+        db.set(userInfo)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "storedUserInFireStore:success");
+                    listener.onUserInfoStored(true);
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Failed to Store User Info: " + e);
+                    listener.onUserInfoStored(false);
+                });
+    }
+
+    private void sendEmailVerification(FirebaseUser user) {
+        if (user != null && !user.isEmailVerified()) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Verification Email Sent.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Error Sending Verification Email.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     private void clearSelections() {
@@ -115,8 +202,6 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword.setText("");
         etConfirmPassword.setText("");
         etMobile.setText("");
-        adminRadioButton.setChecked(false);
-        staffRadioButton.setChecked(false);
         etName.clearFocus();
         etEmail.clearFocus();
         etID.clearFocus();

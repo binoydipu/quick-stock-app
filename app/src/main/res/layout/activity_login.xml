@@ -41,18 +41,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Email"
+            app:hintTextColor="@color/grayBlue"
             app:boxCornerRadiusBottomEnd="13dp"
             app:boxCornerRadiusBottomStart="13dp"
             app:boxCornerRadiusTopEnd="13dp"
             app:boxCornerRadiusTopStart="13dp"
             app:boxStrokeWidth="2dp"
-            app:boxStrokeColor="@color/softPurple"
+            app:boxStrokeErrorColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_et"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -66,18 +68,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Password"
+            app:hintTextColor="@color/grayBlue"
             app:boxCornerRadiusBottomEnd="13dp"
             app:boxCornerRadiusBottomStart="13dp"
             app:boxCornerRadiusTopEnd="13dp"
             app:boxCornerRadiusTopStart="13dp"
             app:boxStrokeWidth="2dp"
+            app:boxStrokeErrorColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et1"
+            app:passwordToggleTint="@color/grayBlue"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -88,7 +94,6 @@
             android:id="@+id/forgot_pass_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:padding="8dp"
             android:layout_marginTop="5dp"
             android:text="Forgot Password?"
@@ -97,11 +102,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et2" />
 
+        <TextView
+            android:id="@+id/resend_ver_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:padding="8dp"
+            android:layout_marginTop="5dp"
+            android:text="Resend Verification Email"
+            android:textColor="@color/deepBlue"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et2" />
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:progressTint="@color/deepBlue"
+            android:visibility="gone"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et2" />
+
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="60dp"
             android:padding="12dp"
             android:text="Login"
             android:textColor="@color/white"
@@ -109,7 +138,7 @@
             android:backgroundTint="@color/deepBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_pass_text" />
+            app:layout_constraintTop_toBottomOf="@+id/et2" />
 
 
         <TextView
