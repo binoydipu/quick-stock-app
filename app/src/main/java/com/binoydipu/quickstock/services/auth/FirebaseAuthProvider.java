@@ -1,21 +1,35 @@
 package com.binoydipu.quickstock.services.auth;
 
-import static com.binoydipu.quickstock.RegisterActivity.TAG;
+import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_FAILURE;
+import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
+import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.binoydipu.quickstock.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class FirebaseAuthProvider { // Singleton Class
+import java.util.Objects;
+
+// Singleton Class
+public class FirebaseAuthProvider {
+
+    private static final String TAG = "FirebaseAuthProvider";
     private static FirebaseAuthProvider instance;
+    private final FirebaseAuth mAuth;
+    private final FirebaseFirestore firestore;
 
-    private FirebaseAuthProvider() {}
+    private FirebaseAuthProvider() {
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+    }
 
     public static FirebaseAuthProvider getInstance() {
         if (instance == null) {
@@ -24,15 +38,35 @@ public class FirebaseAuthProvider { // Singleton Class
         return instance;
     }
 
+    public AuthUser getCurrentUser() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null) {
+            return null;
+        }
+        AuthUser userInfo = new AuthUser();
+        firestore.collection("users").whereEqualTo("userId", user.getUid()).get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful() && !task.getResult().isEmpty()) {
+                        DocumentSnapshot snapshot = task.getResult().getDocuments().get(1);
+                        String email = Objects.requireNonNull(snapshot.get("userEmail")).toString();
+                    }
+                })
+                .addOnFailureListener(e -> {
+
+                });
+        // TODO: Complete the Get Current User Method
+        return userInfo;
+    }
+
     public void createUser(Context context, String email, String password, OnUserCreationListener listener) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         assert user != null;
-                        sendEmailVerification(context, user);
+                        sendEmailVerification(context);
+                        Toast.makeText(context, "Account Created!", Toast.LENGTH_SHORT).show();
                         listener.onUserCreated(true); // Notify success
                     } else {
                         Log.w(TAG, " "+ task.getException());
@@ -47,7 +81,36 @@ public class FirebaseAuthProvider { // Singleton Class
 
     }
 
-    public void sendEmailVerification(Context context, FirebaseUser user) {
+    public void loginWithFirebase(Context context, String email, String password, OnLoginEventListener listener) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        Log.d(TAG, "loginUserWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if(user != null && user.isEmailVerified()) {
+                            Toast.makeText(context, "Login Success!", Toast.LENGTH_SHORT).show();
+                            listener.onLoginSuccess(ON_LOGIN_SUCCESSFUL); // successful
+                        } else {
+                            Toast.makeText(context, "Please Verify Your Email!", Toast.LENGTH_SHORT).show();
+                            listener.onLoginSuccess(ON_LOGIN_PENDING_EMAIL_VERIFICATION); // pending email verification
+                        }
+                    }
+                    else {
+                        Log.w(TAG, " "+ task.getException());
+                        listener.onLoginSuccess(ON_LOGIN_FAILURE);
+                        if(task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            Toast.makeText(context, "User Does Not Exists!", Toast.LENGTH_SHORT).show();
+                        } else if(task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(context, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Login Failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void sendEmailVerification(Context context) {
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null && !user.isEmailVerified()) {
             user.sendEmailVerification()
                     .addOnCompleteListener(task -> {
@@ -64,7 +127,7 @@ public class FirebaseAuthProvider { // Singleton Class
         void onUserCreated(boolean isSuccessful);
     }
 
-    public interface OnUserInfoStoredListener {
-        void onUserInfoStored(boolean isInfoStored);
+    public interface OnLoginEventListener {
+        void onLoginSuccess(String loginStatus);
     }
 }

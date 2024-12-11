@@ -19,7 +19,6 @@ public class FirebaseCloudStorage {
         firestore = FirebaseFirestore.getInstance();
     }
 
-    // Get singleton instance
     public static FirebaseCloudStorage getInstance() {
         if (instance == null) {
             instance = new FirebaseCloudStorage();

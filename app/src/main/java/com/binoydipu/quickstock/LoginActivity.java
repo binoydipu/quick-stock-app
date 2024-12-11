@@ -1,5 +1,7 @@
 package com.binoydipu.quickstock;
 
+import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
+import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
 import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
 
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -29,8 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
-
-    public static final String TAG = "LoginActivity";
+    private FirebaseAuthProvider authProvider;
 
     @Override
     protected void onStart() { // already logged in
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         tvResendVerifyEmail = findViewById(R.id.resend_ver_email_text);
         progressBar = findViewById(R.id.progress_circular);
         mAuth = FirebaseAuth.getInstance();
+        authProvider = FirebaseAuthProvider.getInstance();
 
         btnLogin.setOnClickListener(v -> {
             String email = Objects.requireNonNull(etEmail.getText()).toString().trim();
@@ -71,7 +74,16 @@ public class LoginActivity extends AppCompatActivity {
                 etPassword.requestFocus();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
-                loginWithFirebase(email, password);
+                authProvider.loginWithFirebase(this, email, password, loginStatus -> {
+                    progressBar.setVisibility(View.GONE);
+                    if(loginStatus.equals(ON_LOGIN_SUCCESSFUL)) {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if(loginStatus.equals(ON_LOGIN_PENDING_EMAIL_VERIFICATION)) {
+                        tvResendVerifyEmail.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
         tvRegister.setOnClickListener(v -> {
@@ -85,52 +97,8 @@ public class LoginActivity extends AppCompatActivity {
         });
         tvResendVerifyEmail.setOnClickListener(v -> {
             mAuth = FirebaseAuth.getInstance();
-            sendEmailVerification(mAuth.getCurrentUser());
+            authProvider.sendEmailVerification(this);
         });
-    }
-
-    private void loginWithFirebase(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    progressBar.setVisibility(View.GONE);
-                    if(task.isSuccessful()) {
-                        Log.d(TAG, "loginUserWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if(user != null && user.isEmailVerified()) {
-                            Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Please Verify Your Email!", Toast.LENGTH_SHORT).show();
-                            tvResendVerifyEmail.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    else {
-                        Log.w(TAG, " "+ task.getException());
-                        if(task.getException() instanceof FirebaseAuthInvalidUserException) {
-                            Toast.makeText(getApplicationContext(), "User Does Not Exists!", Toast.LENGTH_SHORT).show();
-                        } else if(task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            Toast.makeText(getApplicationContext(), "Invalid Credentials!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void sendEmailVerification(FirebaseUser user) {
-        if (user != null && !user.isEmailVerified()) {
-            user.sendEmailVerification()
-                    .addOnCompleteListener(task -> {
-                        mAuth.signOut();
-                        if (task.isSuccessful()) {
-                            Toast.makeText(this, "Verification Email Sent.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "Error Sending Verification Email.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
     }
 
     private void clearSelections() {
