@@ -1,8 +1,8 @@
 package com.binoydipu.quickstock.services.auth;
 
 public class AuthUser {
-    String userId, userName, staffId, userEmail, mobileNo;
-    boolean isEmailVerified;
+    private String userId, userName, staffId, userEmail, mobileNo;
+    private boolean isEmailVerified;
 
     public AuthUser() {}
 

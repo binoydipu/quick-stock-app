@@ -14,7 +14,6 @@ public class FirebaseCloudStorage {
     private static FirebaseCloudStorage instance;
     private final FirebaseFirestore firestore;
 
-    // Private constructor for singleton
     private FirebaseCloudStorage() {
         firestore = FirebaseFirestore.getInstance();
     }
@@ -26,17 +25,17 @@ public class FirebaseCloudStorage {
         return instance;
     }
 
-    public void storeUserInfoInFirestore(String userId, String name, String id, String email, String mobile, boolean emailVerified, OnUserInfoStoredListener listener) {
+    public void storeUserInfo(String userId, String name, String id, String email, String mobile, boolean emailVerified, OnUserInfoStoredListener listener) {
         DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
         AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified);
 
         db.set(userInfo)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "storedUserInFirestore:success");
+                    Log.d(TAG, "storeUserInfo:success");
                     listener.onUserInfoStored(true); // Notify success
                 })
                 .addOnFailureListener(e -> {
-                    Log.w(TAG, "Failed to store user info: " + e);
+                    Log.w(TAG, "storeUserInfo:failure- " + e);
                     listener.onUserInfoStored(false); // Notify failure
                 });
     }

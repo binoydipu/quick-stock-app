@@ -5,24 +5,16 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
+import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 
 public class HomeActivity extends AppCompatActivity {
 
     private Button btnLogout;
 
-    FirebaseAuth mAuth;
-    FirebaseUser user;
+    FirebaseAuthProvider authProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +30,25 @@ public class HomeActivity extends AppCompatActivity {
 //        });
 
         btnLogout = findViewById(R.id.logout_btn);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        authProvider = FirebaseAuthProvider.getInstance();
 
-        if(user == null) {
+        if(!authProvider.isUserLoggedIn()) {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }
-        else {
-            Toast.makeText(this, "Hello " + user.getEmail(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
         }
 
         btnLogout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            if(authProvider.logOut()) {
+                Toast.makeText(this, "Successfully Logged Out", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Could Not Logout User", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }
