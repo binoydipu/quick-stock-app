@@ -1,5 +1,6 @@
-package com.binoydipu.quickstock;
+package com.binoydipu.quickstock.views;
 
+import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
 import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
@@ -10,10 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -33,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // In case of user already logged in
         if(authProvider.isUserLoggedIn()) { // user != null
-            if(authProvider.isUserEmailVerified()) { // user email is verified
+            if(authProvider.isUserEmailVerified() || authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) { // user email is verified
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -58,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> {
             String email = Objects.requireNonNull(etEmail.getText()).toString().trim();
             String password = Objects.requireNonNull(etPassword.getText()).toString().trim();
+
+            if(checkIfAdmin(email, password)) return;
+
             if (email.isEmpty()) {
                 etEmail.setError("Required field!");
                 etEmail.requestFocus();
@@ -104,6 +109,26 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         tvResendVerifyEmail.setOnClickListener(v -> authProvider.sendEmailVerification(this));
+    }
+
+    private boolean checkIfAdmin(@NonNull String email, String password) {
+        if (email.isEmpty()) {
+            etEmail.setError("Required field!");
+            etEmail.requestFocus();
+        } else if (password.isEmpty()) {
+            etPassword.setError("Required field!");
+            etPassword.requestFocus();
+        } else if(email.equals(ADMIN_EMAIL)) {
+            authProvider.logIn(this, email, password, loginStatus -> {
+                if(loginStatus.equals(ON_LOGIN_SUCCESSFUL)) {
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     private void clearSelections() {

@@ -1,5 +1,6 @@
-package com.binoydipu.quickstock;
+package com.binoydipu.quickstock.views;
 
+import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_USER_CREATION_FAILURE;
 import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
 import static com.binoydipu.quickstock.constants.RegexPatterns.idPattern;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.google.android.material.textfield.TextInputEditText;
@@ -33,10 +35,11 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseCloudStorage cloudStorage;
 
     @Override
-    protected void onStart() { // already logged in
+    protected void onStart() {
         super.onStart();
+        // In case of user already logged in
         if(authProvider.isUserLoggedIn()) { // user != null
-            if(authProvider.isUserEmailVerified()) { // user email is verified
+            if(authProvider.isUserEmailVerified() || authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) { // user email is verified
                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();

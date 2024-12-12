@@ -1,5 +1,6 @@
 package com.binoydipu.quickstock.services.auth;
 
+import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_FAILURE;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
@@ -38,6 +39,11 @@ public class FirebaseAuthProvider {
         return instance;
     }
 
+    public String getCurrentUserEmail() {
+        assert mAuth.getCurrentUser() != null;
+        return mAuth.getCurrentUser().getEmail();
+    }
+
     public boolean isUserLoggedIn() {
         return mAuth.getCurrentUser() != null;
     }
@@ -56,26 +62,6 @@ public class FirebaseAuthProvider {
         Log.d(TAG, "logOut:success");
         return true;
     }
-
-//    public AuthUser getCurrentUser() {
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        if(user == null) {
-//            return null;
-//        }
-//        AuthUser userInfo = new AuthUser();
-//        firestore.collection("users").whereEqualTo("userId", user.getUid()).get()
-//                .addOnCompleteListener(task -> {
-//                    if(task.isSuccessful() && !task.getResult().isEmpty()) {
-//                        DocumentSnapshot snapshot = task.getResult().getDocuments().get(1);
-//                        String email = Objects.requireNonNull(snapshot.get("userEmail")).toString();
-//                    }
-//                })
-//                .addOnFailureListener(e -> {
-//
-//                });
-//        // TODO: Complete the Get Current User Method
-//        return userInfo;
-//    }
 
     public void createUser(Context context, String email, String password, OnUserCreationListener listener) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -106,7 +92,7 @@ public class FirebaseAuthProvider {
                     if(task.isSuccessful()) {
                         Log.d(TAG, "logIn:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        if(user != null && user.isEmailVerified()) {
+                        if(user != null && (user.isEmailVerified() || email.equals(ADMIN_EMAIL))) {
                             Toast.makeText(context, "Login Success!", Toast.LENGTH_SHORT).show();
                             listener.onLoginSuccess(ON_LOGIN_SUCCESSFUL); // successful
                         } else {

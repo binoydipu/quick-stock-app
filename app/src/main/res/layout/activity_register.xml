@@ -8,7 +8,7 @@
     android:padding="20dp"
     android:gravity="center"
     android:background="@color/softRed"
-    tools:context=".RegisterActivity">
+    tools:context=".views.RegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"
