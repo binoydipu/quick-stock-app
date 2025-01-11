@@ -9,5 +9,7 @@ public class CloudStorageConstants {
     public static final String FIELD_USER_MOBILE = "mobileNo";
     public static final String FIELD_USER_EMAIL_VERIFIED = "emailVerified";
 
+    public static final String ITEM_COLLECTION = "items";
+
     CloudStorageConstants() {}
 }

@@ -3,7 +3,24 @@
     <style name="Base.Theme.QuickStock" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/deepBlue</item>
+         <item name="android:textColorHint">@color/textHint</item>
     </style>
 
+
     <style name="Theme.QuickStock" parent="Base.Theme.QuickStock" />
+
+
+    <!-- Custom style for TextInputLayout -->
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/textHint</item>
+        <item name="hintTextColor">@color/hint_color_selector</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxStrokeColor">@color/sky</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+    </style>
+
 </resources>

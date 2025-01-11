@@ -15,10 +15,10 @@
         android:theme="@style/Theme.QuickStock"
         tools:targetApi="31">
         <activity
-            android:name=".views.AddNewItemActivity"
+            android:name=".views.inventory.AddNewItemActivity"
             android:exported="false" />
         <activity
-            android:name=".views.ManageInventoryActivity"
+            android:name=".views.inventory.ManageInventoryActivity"
             android:exported="false" />
         <activity
             android:name=".views.StaffListActivity"

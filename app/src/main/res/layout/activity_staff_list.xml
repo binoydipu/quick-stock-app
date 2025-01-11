@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".views.StaffListActivity">
 
 
@@ -39,12 +40,12 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/custom_edittext"
-            android:hint="Search Staff by Name"
+            android:hint="Search Name"
             android:inputType="text"
             android:paddingStart="10dp"
             android:paddingEnd="30dp"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/search_staff_btn"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,16 +60,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/search_keywords_et"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/deepBlue" />
+            app:tint="@color/textHint" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageView
             android:id="@+id/search_staff_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:backgroundTint="@color/deepBlue"
-            android:text="Search"
-            android:textColor="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/search_icon"
             android:textSize="18sp"
+            app:tint="@color/purple_button"
+            android:contentDescription="Staff Search Button"
+            app:rippleColor="@color/blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -80,11 +82,11 @@
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/materialDivider"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintTop_toBottomOf="@id/constrain_of_searchBox"
-        app:dividerColor="@color/blue" />
+        app:dividerColor="@color/softPurple" />
 
     <ProgressBar
         android:id="@+id/progress_circular"
@@ -101,6 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialDivider" />

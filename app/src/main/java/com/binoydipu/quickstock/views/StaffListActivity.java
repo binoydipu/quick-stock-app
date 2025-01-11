@@ -28,8 +28,7 @@ import java.util.Objects;
 public class StaffListActivity extends AppCompatActivity {
 
     private EditText etSearchKeyword;
-    private ImageView ivClearSearch;
-    private MaterialButton btnSearchStaff;
+    private ImageView ivClearSearch, ivSearchStaff;
     private ProgressBar progressBar;
     private RecyclerView rvStaffLists;
 
@@ -47,7 +46,7 @@ public class StaffListActivity extends AppCompatActivity {
 
         etSearchKeyword = findViewById(R.id.search_keywords_et);
         ivClearSearch = findViewById(R.id.clear_search_text_iv);
-        btnSearchStaff = findViewById(R.id.search_staff_btn);
+        ivSearchStaff = findViewById(R.id.search_staff_btn);
         progressBar = findViewById(R.id.progress_circular);
         rvStaffLists = findViewById(R.id.staff_list_recyclerview);
         staffList = new ArrayList<>();
@@ -61,7 +60,7 @@ public class StaffListActivity extends AppCompatActivity {
             }
         });
 
-        btnSearchStaff.setOnClickListener(v -> displayStaffList());
+        ivSearchStaff.setOnClickListener(v -> displayStaffList());
         ivClearSearch.setOnClickListener(v -> etSearchKeyword.setText(""));
     }
 
@@ -76,6 +75,11 @@ public class StaffListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        displayStaffList();
+        staffList = cloudStorage.getStaffData(this, isReceived -> {
+            progressBar.setVisibility(View.GONE);
+            if(isReceived) {
+                displayStaffList();
+            }
+        });
     }
 }

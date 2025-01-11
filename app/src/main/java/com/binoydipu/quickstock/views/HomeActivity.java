@@ -3,20 +3,19 @@ package com.binoydipu.quickstock.views;
 import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
-
-import java.util.Objects;
+import com.binoydipu.quickstock.views.inventory.ManageInventoryActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -52,6 +51,12 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, ManageInventoryActivity.class);
             startActivity(intent);
         });
+        cvTrackSales.setOnClickListener(v -> {
+            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
+        });
+        cvGenerateReports.setOnClickListener(v -> {
+            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
+        });
 
         btnLogout.setOnClickListener(v -> {
             if(authProvider.logOut()) {
@@ -81,5 +86,18 @@ public class HomeActivity extends AppCompatActivity {
             cvStaffData.setCardBackgroundColor(getResources().getColor(R.color.gray, getTheme()));
             cvStaffData.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setIcon(R.drawable.quick_stock)
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    super.onBackPressed();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }

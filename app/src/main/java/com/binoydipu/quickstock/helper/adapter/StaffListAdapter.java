@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.StaffListViewHolder> {
 
     private final Context context;
-    ArrayList<AuthUser> staffList, filteredStaffList;
+    private ArrayList<AuthUser> staffList, filteredStaffList;
 
     public StaffListAdapter(Context context, ArrayList<AuthUser> staffList) {
         this.context = context;

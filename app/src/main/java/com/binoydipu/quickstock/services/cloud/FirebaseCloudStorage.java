@@ -6,6 +6,7 @@ import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIEL
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_EMAIL_VERIFIED;
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_MOBILE;
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_NAME;
+import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.ITEM_COLLECTION;
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.USER_COLLECTION;
 
 import android.content.Context;
@@ -38,7 +39,8 @@ public class FirebaseCloudStorage {
         return instance;
     }
 
-    public void storeUserInfo(String userId, String name, String id, String email, String mobile, boolean emailVerified, OnUserInfoStoredListener listener) {
+    public void storeUserInfo(String userId, String name, String id, String email, String mobile,
+                              boolean emailVerified, OnUserInfoStoredListener listener) {
         DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
         AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified);
 
@@ -88,11 +90,65 @@ public class FirebaseCloudStorage {
         return staffList;
     }
 
+    public void addNewItem(String itemName, String itemCode, double purchasePrice, double salePrice,
+                           int stockQuantity, long expireDateInMillis, OnNewItemAddedListener listener) {
+        DocumentReference db = firestore.collection(ITEM_COLLECTION).document(itemName);
+        ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis);
+
+        db.set(itemModel)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "addNewItem:success");
+                    listener.isItemAdded(true); // Notify success
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "addNewItem:failure- " + e);
+                    listener.isItemAdded(false); // Notify failure
+                });
+    }
+
+    public ArrayList<ItemModel> getAllItems(Context context, OnItemsReceivedListener listener) {
+        ArrayList<ItemModel> itemModels = new ArrayList<>();
+
+        firestore.collection(ITEM_COLLECTION)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        Log.d(TAG, "getAllItems:success");
+                        for(DocumentSnapshot doc : task.getResult()) {
+                            ItemModel item = doc.toObject(ItemModel.class);
+                            if(item != null) {
+                                itemModels.add(item);
+                            }
+                        }
+                        listener.onStaffDataReceived(true);
+                    } else {
+                        Log.w(TAG, "getAllItems:failure- " + task.getException());
+                        Toast.makeText(context, "Failed to Retrieve Data", Toast.LENGTH_SHORT).show();
+                        listener.onStaffDataReceived(false);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "getAllItems:failure- " + e);
+                    Toast.makeText(context, "Failed to Retrieve Data", Toast.LENGTH_SHORT).show();
+                    listener.onStaffDataReceived(false);
+                });
+
+        return itemModels;
+    }
+
     public interface OnUserInfoStoredListener {
         void onUserInfoStored(boolean isInfoStored);
     }
 
     public interface OnStaffDataReceivedListener {
+        void onStaffDataReceived(boolean isReceived);
+    }
+
+    public interface OnNewItemAddedListener {
+        void isItemAdded(boolean isInfoStored);
+    }
+
+    public interface OnItemsReceivedListener {
         void onStaffDataReceived(boolean isReceived);
     }
 }
