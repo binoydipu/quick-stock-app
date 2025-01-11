@@ -15,6 +15,12 @@
         android:theme="@style/Theme.QuickStock"
         tools:targetApi="31">
         <activity
+            android:name=".views.AddNewItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.ManageInventoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.StaffListActivity"
             android:exported="false" />
         <activity
@@ -27,7 +33,7 @@
             android:name=".views.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

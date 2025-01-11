@@ -35,10 +35,10 @@ public class StaffListAdapter extends RecyclerView.Adapter<StaffListAdapter.Staf
     @Override
     public void onBindViewHolder(@NonNull StaffListAdapter.StaffListViewHolder holder, int position) {
         AuthUser user = filteredStaffList.get(position);
-        holder.userName.setText(user.getUserName());
-        holder.staffId.setText(user.getStaffId());
-        holder.userEmail.setText(user.getUserEmail());
-        holder.mobileNo.setText(user.getMobileNo());
+        holder.userName.setText(String.format("Name: %s", user.getUserName()));
+        holder.staffId.setText(String.format("Staff ID: %s", user.getStaffId()));
+        holder.userEmail.setText(String.format("Email: %s", user.getUserEmail()));
+        holder.mobileNo.setText(String.format("Mobile: %s", user.getMobileNo()));
     }
 
     @Override

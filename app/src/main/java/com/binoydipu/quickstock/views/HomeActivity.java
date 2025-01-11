@@ -21,7 +21,7 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity {
 
     private Button btnLogout;
-    private CardView cvStaffData;
+    private CardView cvStaffData, cvManageInventory, cvTrackSales, cvGenerateReports;
 
     private FirebaseAuthProvider authProvider;
 
@@ -32,9 +32,13 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackInvokedCallbackEnabled(true);
 
         btnLogout = findViewById(R.id.logout_btn);
         cvStaffData = findViewById(R.id.view_staff_data_cv);
+        cvManageInventory = findViewById(R.id.manage_inventory_cb);
+        cvTrackSales = findViewById(R.id.track_sales_cv);
+        cvGenerateReports = findViewById(R.id.generate_report_cv);
         authProvider = FirebaseAuthProvider.getInstance();
 
         checkIfLoggedIn();
@@ -42,6 +46,10 @@ public class HomeActivity extends AppCompatActivity {
         
         cvStaffData.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, StaffListActivity.class);
+            startActivity(intent);
+        });
+        cvManageInventory.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ManageInventoryActivity.class);
             startActivity(intent);
         });
 

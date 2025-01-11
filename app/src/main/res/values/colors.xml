@@ -15,4 +15,10 @@
     <color name="orange">#F44336</color>
     <color name="red">#FF0000</color>
     <color name="textHint">#B3B3B3</color>
+
+
+<!-- Specific Colors-->
+    <color name="splash_screen">#FF19305C</color>
+
+
 </resources>
