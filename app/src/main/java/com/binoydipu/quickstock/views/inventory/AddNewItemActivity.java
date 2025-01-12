@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class AddNewItemActivity extends AppCompatActivity {
     private TextInputEditText etItemName, etItemCode, etPurchasePrice,
             etSalePrice, etStockQuantity, etStockExpireDate;
     private TextView tvCancleItem, tvSaveItem;
+    private ImageView ivToolbarBack;
     long expireDateInMillis;
     private ProgressBar progressBar;
     private FirebaseCloudStorage cloudStorage;
@@ -37,8 +39,9 @@ public class AddNewItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_item);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        ivToolbarBack = findViewById(R.id.toolbar_back_btn);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         etItemName = findViewById(R.id.item_name_et);
         etItemCode = findViewById(R.id.item_code_et);
@@ -52,15 +55,8 @@ public class AddNewItemActivity extends AppCompatActivity {
         cloudStorage = FirebaseCloudStorage.getInstance();
         expireDateInMillis = -1;
 
-        tvCancleItem.setOnClickListener(v -> {
-            new AlertDialog.Builder(this)
-                    .setTitle("Discard Item")
-                    .setMessage("Are you sure you want to discard this item?")
-                    .setIcon(R.drawable.quick_stock)
-                    .setPositiveButton("Yes", (dialog, which) -> getOnBackPressedDispatcher().onBackPressed())
-                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                    .show();
-        });
+        ivToolbarBack.setOnClickListener(v -> onBackPressed());
+        tvCancleItem.setOnClickListener(v -> onBackPressed());
 
         etStockExpireDate.setOnClickListener(view -> {
             // Get the current date as default

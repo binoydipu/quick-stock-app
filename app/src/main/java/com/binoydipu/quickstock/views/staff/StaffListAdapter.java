@@ -1,4 +1,4 @@
-package com.binoydipu.quickstock.helper.adapter;
+package com.binoydipu.quickstock.views.staff;
 
 import android.content.Context;
 import android.view.LayoutInflater;

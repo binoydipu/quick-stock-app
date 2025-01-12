@@ -5,21 +5,38 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/light_background"
     tools:context=".views.inventory.ManageInventoryActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/deepBlue"
+        android:background="@color/background_color"
         android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Inventory"
-        app:titleTextColor="@android:color/white"
-        app:navigationIcon="@drawable/back_button">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/toolbar_back_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Back Button"
+            android:src="@drawable/angle_left">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inventory"
+            android:textColor="@color/black_text"
+            android:fontFamily="@font/moresugar_regular"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.card.MaterialCardView
@@ -33,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:strokeColor="@color/softPurple">
+        app:strokeColor="@color/softPurple"
+        app:strokeWidth="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -181,7 +199,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/custom_edittext"
-            android:hint="Search Item Name"
+            android:hint="Search Name"
             android:inputType="text"
             android:paddingStart="10dp"
             android:paddingEnd="30dp"
@@ -201,7 +219,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/search_keywords_et"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/textHint" />
+            app:tint="@color/background_color" />
 
         <ImageView
             android:id="@+id/search_staff_btn"
@@ -209,9 +227,8 @@
             android:layout_height="40dp"
             android:src="@drawable/search_icon"
             android:textSize="18sp"
-            app:tint="@color/purple_button"
-            android:contentDescription="Item Search Button"
-            app:rippleColor="@color/blue"
+            app:tint="@color/lightOrange"
+            android:contentDescription="Staff Search Button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -240,7 +257,7 @@
         android:textSize="16sp"
         app:icon="@drawable/box_icon"
         app:iconTint="@null"
-        app:rippleColor="@color/blue"
+        app:rippleColor="@color/red"
         android:backgroundTint="@color/floating_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_background"
     tools:context=".views.inventory.AddNewItemActivity">
 
     <ScrollView
@@ -23,14 +23,31 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/deepBlue"
+                android:background="@color/background_color"
                 android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIcon="@drawable/back_button"
-                app:title="Add New Item"
-                app:titleTextColor="@android:color/white"/>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/toolbar_back_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Back Button"
+                    android:src="@drawable/angle_left">
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add New Item"
+                    android:textColor="@color/black_text"
+                    android:fontFamily="@font/moresugar_regular"
+                    android:textSize="24sp"
+                    android:layout_gravity="center"/>
+
+            </androidx.appcompat.widget.Toolbar>
 
             <TextView
                 android:id="@+id/product_info_tv"
@@ -195,7 +212,7 @@
                 app:endIconContentDescription="Select Date"
                 app:endIconDrawable="@drawable/ic_calender"
                 app:endIconMode="custom"
-                app:endIconTint="@color/sky"
+                app:endIconTint="@color/lightOrange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et5">

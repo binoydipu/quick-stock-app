@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Notification"
+        android:id="@+id/notification_menu"
+        android:icon="@drawable/notification_icon"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:title="Profile"
+        android:id="@+id/profile_menu"/>
+
+    <item
+        android:title="Logout"
+        android:id="@+id/logout_menu" />
+
+</menu>

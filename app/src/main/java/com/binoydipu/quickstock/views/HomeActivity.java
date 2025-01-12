@@ -5,9 +5,12 @@ import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,10 +19,12 @@ import androidx.cardview.widget.CardView;
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.views.inventory.ManageInventoryActivity;
+import com.binoydipu.quickstock.views.staff.StaffListActivity;
+
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button btnLogout;
     private CardView cvStaffData, cvManageInventory, cvTrackSales, cvGenerateReports;
 
     private FirebaseAuthProvider authProvider;
@@ -31,9 +36,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackInvokedCallbackEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        btnLogout = findViewById(R.id.logout_btn);
         cvStaffData = findViewById(R.id.view_staff_data_cv);
         cvManageInventory = findViewById(R.id.manage_inventory_cb);
         cvTrackSales = findViewById(R.id.track_sales_cv);
@@ -56,17 +60,6 @@ public class HomeActivity extends AppCompatActivity {
         });
         cvGenerateReports.setOnClickListener(v -> {
             Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
-        });
-
-        btnLogout.setOnClickListener(v -> {
-            if(authProvider.logOut()) {
-                Toast.makeText(this, "Successfully Logged out", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(this, "Could Not Logout User", Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
@@ -96,6 +89,44 @@ public class HomeActivity extends AppCompatActivity {
                 .setIcon(R.drawable.quick_stock)
                 .setPositiveButton("Yes", (dialog, which) -> {
                     super.onBackPressed();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.notification_menu) {
+            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.profile_menu) {
+            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.logout_menu) {
+            logoutUser();
+        }
+        return true;
+    }
+
+    private void logoutUser() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setIcon(R.drawable.quick_stock)
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    if(authProvider.logOut()) {
+                        Toast.makeText(this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Could Not Logout User", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();

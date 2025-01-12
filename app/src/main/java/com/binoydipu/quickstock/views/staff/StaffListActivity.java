@@ -1,26 +1,21 @@
-package com.binoydipu.quickstock.views;
+package com.binoydipu.quickstock.views.staff;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
-import com.binoydipu.quickstock.helper.adapter.StaffListAdapter;
 import com.binoydipu.quickstock.services.auth.AuthUser;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,7 +23,7 @@ import java.util.Objects;
 public class StaffListActivity extends AppCompatActivity {
 
     private EditText etSearchKeyword;
-    private ImageView ivClearSearch, ivSearchStaff;
+    private ImageView ivClearSearch, ivSearchStaff, ivToolbarBack;
     private ProgressBar progressBar;
     private RecyclerView rvStaffLists;
 
@@ -41,8 +36,9 @@ public class StaffListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_staff_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        ivToolbarBack = findViewById(R.id.toolbar_back_btn);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed() );
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         etSearchKeyword = findViewById(R.id.search_keywords_et);
         ivClearSearch = findViewById(R.id.clear_search_text_iv);
@@ -53,14 +49,21 @@ public class StaffListActivity extends AppCompatActivity {
         cloudStorage = FirebaseCloudStorage.getInstance();
 
         progressBar.setVisibility(View.VISIBLE);
-        staffList = cloudStorage.getStaffData(this, isReceived -> {
+        staffList = cloudStorage.getAllUsers(this, isReceived -> {
             progressBar.setVisibility(View.GONE);
             if(isReceived) {
                 displayStaffList();
             }
         });
 
-        ivSearchStaff.setOnClickListener(v -> displayStaffList());
+        ivToolbarBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        ivSearchStaff.setOnClickListener(v -> {
+            displayStaffList();
+            etSearchKeyword.clearFocus();
+            // to close keyboard
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etSearchKeyword.getWindowToken(), 0);
+        });
         ivClearSearch.setOnClickListener(v -> etSearchKeyword.setText(""));
     }
 
@@ -75,7 +78,7 @@ public class StaffListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        staffList = cloudStorage.getStaffData(this, isReceived -> {
+        staffList = cloudStorage.getAllUsers(this, isReceived -> {
             progressBar.setVisibility(View.GONE);
             if(isReceived) {
                 displayStaffList();

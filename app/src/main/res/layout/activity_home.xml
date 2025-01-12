@@ -5,21 +5,39 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/softRed"
+    android:background="@color/light_background"
     tools:context=".views.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/deepBlue"
+        android:background="@color/background_color"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="QuickStock"
-        app:titleTextColor="@android:color/white">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/quickstock_logo_btn"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:contentDescription="Logo"
+            android:src="@drawable/quick_stock">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QuickStock"
+            android:textColor="@color/black_text"
+            android:fontFamily="@font/moresugar_regular"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
     </androidx.appcompat.widget.Toolbar>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,8 +62,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView"
@@ -65,7 +82,7 @@
                     android:id="@+id/materialDivider2"
                     android:layout_width="2dp"
                     android:layout_height="60dp"
-                    app:dividerColor="@color/white"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +136,7 @@
                     android:id="@+id/materialDivider3"
                     android:layout_width="2dp"
                     android:layout_height="60dp"
-                    app:dividerColor="@color/white"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +190,7 @@
                     android:id="@+id/materialDivider4"
                     android:layout_width="2dp"
                     android:layout_height="60dp"
-                    app:dividerColor="@color/white"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +244,7 @@
                     android:id="@+id/materialDivider5"
                     android:layout_width="2dp"
                     android:layout_height="60dp"
-                    app:dividerColor="@color/white"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -246,20 +263,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/logout_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textSize="18dp"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/deepBlue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

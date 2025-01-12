@@ -4,7 +4,7 @@
     <!-- when writing inside the box /-->
     <item android:state_enabled="true" android:state_focused="true">
         <shape android:shape="rectangle">
-            <stroke android:width="2dp" android:color="@color/blue"/>
+            <stroke android:width="2dp" android:color="@color/lightOrange"/>
             <corners android:radius="10dp"/>
             <solid android:color="@color/white"/>
         </shape>
@@ -13,7 +13,7 @@
     <!-- default box /-->
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <stroke android:width="2dp" android:color="@color/softPurple"/>
+            <stroke android:width="2dp" android:color="@color/background_color"/>
             <corners android:radius="10dp"/>
             <solid android:color="@color/white"/>
         </shape>

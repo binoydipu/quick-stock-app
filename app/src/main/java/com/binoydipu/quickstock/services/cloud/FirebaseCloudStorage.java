@@ -1,11 +1,5 @@
 package com.binoydipu.quickstock.services.cloud;
 
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_STAFF_ID;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_UID;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_EMAIL;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_EMAIL_VERIFIED;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_MOBILE;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.FIELD_USER_NAME;
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.ITEM_COLLECTION;
 import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.USER_COLLECTION;
 
@@ -55,7 +49,7 @@ public class FirebaseCloudStorage {
                 });
     }
 
-    public ArrayList<AuthUser> getStaffData(Context context, OnStaffDataReceivedListener listener) {
+    public ArrayList<AuthUser> getAllUsers(Context context, OnStaffDataReceivedListener listener) {
         ArrayList<AuthUser> staffList = new ArrayList<>();
 
         firestore.collection(USER_COLLECTION)
@@ -64,15 +58,10 @@ public class FirebaseCloudStorage {
                     if(task.isSuccessful()) {
                         Log.d(TAG, "getStaffData:success");
                         for(DocumentSnapshot doc : task.getResult()) {
-                            AuthUser user = new AuthUser(
-                                    doc.getString(FIELD_UID),
-                                    doc.getString(FIELD_USER_NAME),
-                                    doc.getString(FIELD_STAFF_ID),
-                                    doc.getString(FIELD_USER_EMAIL),
-                                    doc.getString(FIELD_USER_MOBILE),
-                                    Boolean.TRUE.equals(doc.getBoolean(FIELD_USER_EMAIL_VERIFIED))
-                            );
-                            staffList.add(user);
+                            AuthUser user = doc.toObject(AuthUser.class);
+                            if(user != null) {
+                                staffList.add(user);
+                            }
                         }
                         listener.onStaffDataReceived(true);
                     } else {
