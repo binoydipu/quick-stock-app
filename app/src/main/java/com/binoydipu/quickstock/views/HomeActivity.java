@@ -105,7 +105,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.notification_menu) {
-            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, NotificationActivity.class));
         } else if(id == R.id.profile_menu) {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if(id == R.id.logout_menu) {

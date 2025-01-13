@@ -20,8 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
+import com.binoydipu.quickstock.utilities.format.NumberFormater;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class LowStockActivity extends AppCompatActivity {
@@ -45,7 +48,7 @@ public class LowStockActivity extends AppCompatActivity {
 
         tvLowStockItems = findViewById(R.id.low_stock_items_tv);
         tvStockValue = findViewById(R.id.stock_value_tv);
-        rvItemsList = findViewById(R.id.stock_summary_recyclerview);
+        rvItemsList = findViewById(R.id.low_stock_recyclerview);
         progressBar = findViewById(R.id.progress_circular);
         itemModels = new ArrayList<>();
         lowStockItems = new ArrayList<>();
@@ -72,7 +75,7 @@ public class LowStockActivity extends AppCompatActivity {
                 lowStockItems.add(item);
             }
         }
-        String stockValueString = "৳ " + lowStockValue;
+        String stockValueString = NumberFormater.formatPrice(lowStockValue);
 
         tvLowStockItems.setText(String.valueOf(lowItems));
         tvStockValue.setText(stockValueString);

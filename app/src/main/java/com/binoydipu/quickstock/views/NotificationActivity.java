@@ -6,31 +6,33 @@ import static com.binoydipu.quickstock.constants.ConstantValues.SWITCH_KEY;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
-import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.Objects;
 
-public class ProfileActivity extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
 
-    private MaterialSwitch notificationSwitch;
-    private MaterialButton btnEditProfile;
-    private SharedPreferences sharedPreferences;
     private ImageView ivToolbarBack;
-    private ConstraintLayout logoutLayout;
+    private MaterialSwitch notificationSwitch;
+    private ProgressBar progressBar;
+    private RecyclerView rvNotification;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_notification);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         ivToolbarBack = findViewById(R.id.toolbar_back_btn);
@@ -38,16 +40,12 @@ public class ProfileActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         notificationSwitch = findViewById(R.id.notification_switch);
-        btnEditProfile = findViewById(R.id.edit_profile_btn);
-        logoutLayout = findViewById(R.id.logout_layout);
+        progressBar = findViewById(R.id.progress_circular);
+        rvNotification = findViewById(R.id.notification_recyclerview);
         sharedPreferences = getSharedPreferences(PREF_SWITCH, MODE_PRIVATE);
 
         // Check Previously Saved Preferences
         checkPreferences();
-
-        btnEditProfile.setOnClickListener(v -> {
-            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
-        });
 
         notificationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -55,7 +53,6 @@ public class ProfileActivity extends AppCompatActivity {
             editor.apply();
         });
 
-        logoutLayout.setOnClickListener(v -> DialogHelper.logoutDialog(this));
         ivToolbarBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 

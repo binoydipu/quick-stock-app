@@ -1,4 +1,4 @@
-package com.binoydipu.quickstock.utilities.browser;
+package com.binoydipu.quickstock.utilities.internet;
 
 import android.content.Context;
 import android.content.Intent;

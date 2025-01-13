@@ -28,6 +28,7 @@ import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.AboutActivity;
 import com.binoydipu.quickstock.views.HomeActivity;
 import com.binoydipu.quickstock.views.LoginActivity;
+import com.binoydipu.quickstock.views.NotificationActivity;
 import com.binoydipu.quickstock.views.ProfileActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -122,7 +123,7 @@ public class ManageInventoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.notification_menu) {
-            Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, NotificationActivity.class));
         } else if(id == R.id.profile_menu) {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if(id == R.id.logout_menu) {

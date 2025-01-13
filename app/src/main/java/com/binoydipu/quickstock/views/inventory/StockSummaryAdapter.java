@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
+import com.binoydipu.quickstock.utilities.format.NumberFormater;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class StockSummaryAdapter extends RecyclerView.Adapter<StockSummaryAdapte
     public void onBindViewHolder(@NonNull StockSummaryAdapter.StockSummaryViewHolder holder, int position) {
         ItemModel itemModel = itemModels.get(position);
         holder.itemName.setText(itemModel.getItemName());
-        String stockValue = "৳ " + (itemModel.getPurchasePrice() * itemModel.getStockQuantity());
+        String stockValue = NumberFormater.formatPrice(itemModel.getPurchasePrice() * itemModel.getStockQuantity());
         String stockQuantity = String.valueOf(itemModel.getStockQuantity());
         holder.stockValue.setText(stockValue);
         holder.stockQuantity.setText(stockQuantity);
