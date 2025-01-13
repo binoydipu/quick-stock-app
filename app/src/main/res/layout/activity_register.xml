@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Name"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Staff Id"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Email"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Password"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -127,7 +127,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et3"
-                app:passwordToggleTint="@color/grayBlue"
+                app:passwordToggleTint="@color/gray_blue"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Confirm Password"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -154,7 +154,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et4"
-                app:passwordToggleTint="@color/grayBlue"
+                app:passwordToggleTint="@color/gray_blue"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Mobile"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:boxCornerRadiusBottomEnd="13dp"
                 app:boxCornerRadiusBottomStart="13dp"
                 app:boxCornerRadiusTopEnd="13dp"
@@ -220,7 +220,7 @@
 
             <ProgressBar
                 android:id="@+id/progress_circular"
-                android:progressTint="@color/deepBlue"
+                android:progressTint="@color/deep_blue"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
                 android:layout_width="50dp"

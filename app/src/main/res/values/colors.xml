@@ -4,13 +4,13 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#C9C9C9</color>
 
-    <color name="deepBlue">#FF03122F</color>
+    <color name="deep_blue">#FF03122F</color>
     <color name="blue">#FF19305C</color>
-    <color name="grayBlue">#FF413B61</color>
+    <color name="gray_blue">#FF413B61</color>
 
-    <color name="softPurple">#FFAE7DAC</color>
-    <color name="softRed">#FFF3DADF</color>
-    <color name="lightOrange">#FFF1916D</color>
+    <color name="soft_purple">#FFAE7DAC</color>
+    <color name="soft_red">#FFF3DADF</color>
+    <color name="light_orange">#FFF1916D</color>
     <color name="light_gold">#FFF7DF</color>
     <color name="light_green">#D4FFDE</color>
     <color name="light_blue">#D8EFFE</color>
@@ -20,12 +20,13 @@
     <color name="red">#FF0000</color>
     <color name="sky">#03A9F4</color>
     <color name="green">#15C268</color>
-    <color name="textHint">#B3B3B3</color>
+    <color name="text_hint">#B3B3B3</color>
 
 
 <!-- Specific Colors-->
     <color name="background_color">#EEEAE7</color>
     <color name="light_background">#F9F4F4</color>
+    <color name="logout_red">#E91E63</color>
     <color name="splash_screen">#FF19305C</color>
     <color name="black_text">#FF000000</color>
     <color name="gray_text">#3B3B3B</color>

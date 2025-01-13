@@ -2,9 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.QuickStock" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/deepBlue</item>
+         <item name="colorPrimary">@color/black</item>
+         <item name="colorSecondary">@color/background_color</item>
+         <item name="colorSecondaryVariant">@color/light_background</item>
 <!--        <item name="fontFamily">@font/moresugar_regular</item>-->
-         <item name="android:textColorHint">@color/textHint</item>
+         <item name="android:textColorHint">@color/text_hint</item>
     </style>
 
 
@@ -12,7 +14,7 @@
 
     <!-- Custom style for TextInputLayout -->
     <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:textColorHint">@color/textHint</item>
+        <item name="android:textColorHint">@color/text_hint</item>
         <item name="hintTextColor">@color/hint_color_selector</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.binoydipu.quickstock.R;
@@ -39,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStart();
         // In case of user already logged in
         if(authProvider.isUserLoggedIn()) { // user != null
-            if(authProvider.isUserEmailVerified() || authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) { // user email is verified
+            if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL) || authProvider.isUserEmailVerified()) { // user email is verified
                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -64,11 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
         authProvider = FirebaseAuthProvider.getInstance();
         cloudStorage = FirebaseCloudStorage.getInstance();
 
-        tvLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        tvLogin.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         btnRegister.setOnClickListener(v -> {
             String name = Objects.requireNonNull(etName.getText()).toString().trim();
@@ -122,10 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
                     if (!userStatus.equals(ON_USER_CREATION_FAILURE)) { // on success - returns uId
 
                         cloudStorage.storeUserInfo(userStatus, name, id, email, mobile, authProvider.isUserEmailVerified(), isInfoStored -> {
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            getOnBackPressedDispatcher().onBackPressed();
                             authProvider.logOut();
-                            finish();
+//                            finish();
                         });
                     }
                 });

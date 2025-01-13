@@ -24,8 +24,11 @@ import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
+import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
+import com.binoydipu.quickstock.views.AboutActivity;
 import com.binoydipu.quickstock.views.HomeActivity;
 import com.binoydipu.quickstock.views.LoginActivity;
+import com.binoydipu.quickstock.views.ProfileActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
@@ -43,7 +46,6 @@ public class ManageInventoryActivity extends AppCompatActivity {
     private RecyclerView rvItemsList;
 
     private FirebaseCloudStorage cloudStorage;
-    private FirebaseAuthProvider authProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,6 @@ public class ManageInventoryActivity extends AppCompatActivity {
         ivSearchStaff = findViewById(R.id.search_staff_btn);
         itemModels = new ArrayList<>();
         cloudStorage = FirebaseCloudStorage.getInstance();
-        authProvider = FirebaseAuthProvider.getInstance();
 
         progressBar.setVisibility(View.VISIBLE);
         itemModels = cloudStorage.getAllItems(this, isReceived -> {
@@ -133,29 +134,12 @@ public class ManageInventoryActivity extends AppCompatActivity {
         if(id == R.id.notification_menu) {
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
         } else if(id == R.id.profile_menu) {
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ProfileActivity.class));
         } else if(id == R.id.logout_menu) {
-            logoutUser();
+            DialogHelper.logoutDialog(this);
+        } else if(id == R.id.about_menu) {
+            startActivity(new Intent(this, AboutActivity.class));
         }
         return true;
-    }
-
-    private void logoutUser() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to logout?")
-                .setIcon(R.drawable.quick_stock)
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    if (authProvider.logOut()) {
-                        Toast.makeText(this, "Logout Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Could Not Logout User", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .show();
     }
 }

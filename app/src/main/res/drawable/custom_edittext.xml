@@ -4,7 +4,7 @@
     <!-- when writing inside the box /-->
     <item android:state_enabled="true" android:state_focused="true">
         <shape android:shape="rectangle">
-            <stroke android:width="2dp" android:color="@color/lightOrange"/>
+            <stroke android:width="2dp" android:color="@color/light_orange"/>
             <corners android:radius="10dp"/>
             <solid android:color="@color/white"/>
         </shape>

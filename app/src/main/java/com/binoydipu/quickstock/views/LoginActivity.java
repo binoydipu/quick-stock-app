@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // In case of user already logged in
         if(authProvider.isUserLoggedIn()) { // user != null
-            if(authProvider.isUserEmailVerified() || authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) { // user email is verified
+            if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL) || authProvider.isUserEmailVerified()) { // user email is verified
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();

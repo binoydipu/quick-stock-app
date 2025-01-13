@@ -11,27 +11,14 @@
     android:background="@color/background_color"
     tools:context=".views.LoginActivity">
 
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/moresugar_regular"
-        android:layout_marginTop="70dp"
-        android:text="Welcome to QuickStock!"
-        android:gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:textSize="26dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,10 +29,24 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/moresugar_regular"
+                android:gravity="center_horizontal"
+                android:text="Welcome to QuickStock!"
+                android:textColor="@color/black"
+                android:textSize="26dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="100dp"
                 android:fontFamily="@font/moresugar_regular"
                 android:text="Login Here"
                 android:textColor="@color/black"
@@ -53,7 +54,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/tv2" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et1"
@@ -67,7 +68,7 @@
                 app:boxCornerRadiusTopStart="13dp"
                 app:boxStrokeErrorColor="@color/red"
                 app:boxStrokeWidth="2dp"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv1">
@@ -94,12 +95,12 @@
                 app:boxCornerRadiusTopStart="13dp"
                 app:boxStrokeErrorColor="@color/red"
                 app:boxStrokeWidth="2dp"
-                app:hintTextColor="@color/grayBlue"
+                app:hintTextColor="@color/gray_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et1"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/grayBlue">
+                app:passwordToggleTint="@color/gray_blue">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_et"
@@ -115,9 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/delius_regular"
                 android:padding="8dp"
                 android:text="Forgot Password?"
-                android:fontFamily="@font/delius_regular"
                 android:textColor="@color/black_text"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +142,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:progressTint="@color/deepBlue"
+                android:progressTint="@color/deep_blue"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,11 +154,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:backgroundTint="@color/black"
+                android:fontFamily="@font/moresugar_regular"
                 android:padding="5dp"
                 android:text="Login"
                 android:textColor="@color/white"
                 android:textSize="24sp"
-                android:fontFamily="@font/moresugar_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et2" />

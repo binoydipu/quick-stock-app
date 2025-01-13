@@ -8,5 +8,8 @@ public class ConstantValues {
     public static final String ADMIN_EMAIL = "admin@quickstock.com";
     public static final int SPLASH_SCREEN_TIMEOUT = 1000;
 
+    public static final String PREF_SWITCH = "SwitchPrefs";
+    public static final String SWITCH_KEY = "notification_switch_state";
+
     public ConstantValues() {}
 }

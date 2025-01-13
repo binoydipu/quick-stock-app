@@ -34,7 +34,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:contentDescription="Back Button"
-                    android:src="@drawable/angle_left">
+                    android:src="@drawable/back_ang_icon">
                 </ImageView>
 
                 <TextView
@@ -212,7 +212,7 @@
                 app:endIconContentDescription="Select Date"
                 app:endIconDrawable="@drawable/ic_calender"
                 app:endIconMode="custom"
-                app:endIconTint="@color/lightOrange"
+                app:endIconTint="@color/light_orange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et5">
@@ -232,7 +232,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="70dp"
-                android:progressTint="@color/deepBlue"
+                android:progressTint="@color/deep_blue"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

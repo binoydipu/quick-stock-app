@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,7 @@ import androidx.cardview.widget.CardView;
 
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
+import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.inventory.ManageInventoryActivity;
 import com.binoydipu.quickstock.views.staff.StaffListActivity;
 
@@ -89,6 +89,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setIcon(R.drawable.quick_stock)
                 .setPositiveButton("Yes", (dialog, which) -> {
                     super.onBackPressed();
+                    finishAffinity();
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
@@ -106,13 +107,16 @@ public class HomeActivity extends AppCompatActivity {
         if(id == R.id.notification_menu) {
             Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show();
         } else if(id == R.id.profile_menu) {
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ProfileActivity.class));
         } else if(id == R.id.logout_menu) {
-            logoutUser();
+            DialogHelper.logoutDialog(this);
+        } else if(id == R.id.about_menu) {
+            startActivity(new Intent(this, AboutActivity.class));
         }
         return true;
     }
 
+    /*
     private void logoutUser() {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
@@ -130,5 +134,5 @@ public class HomeActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
-    }
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.binoydipu.quickstock.services.auth;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_FAILURE;
 import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
@@ -10,16 +11,11 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
 
 // Singleton Class
 public class FirebaseAuthProvider {
