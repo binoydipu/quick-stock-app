@@ -8,7 +8,7 @@
     android:padding="20dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/background_color"
+    android:background="@color/light_background"
     tools:context=".views.LoginActivity">
 
     <ScrollView
@@ -58,17 +58,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et1"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Email"
-                app:boxCornerRadiusBottomEnd="13dp"
-                app:boxCornerRadiusBottomStart="13dp"
-                app:boxCornerRadiusTopEnd="13dp"
-                app:boxCornerRadiusTopStart="13dp"
-                app:boxStrokeErrorColor="@color/red"
-                app:boxStrokeWidth="2dp"
-                app:hintTextColor="@color/gray_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv1">
@@ -85,17 +79,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et2"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Password"
-                app:boxCornerRadiusBottomEnd="13dp"
-                app:boxCornerRadiusBottomStart="13dp"
-                app:boxCornerRadiusTopEnd="13dp"
-                app:boxCornerRadiusTopStart="13dp"
-                app:boxStrokeErrorColor="@color/red"
-                app:boxStrokeWidth="2dp"
-                app:hintTextColor="@color/gray_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et1"

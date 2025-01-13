@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QuickStock</string>
+    <string name="project_github_link">/binoydipu/quick-stock-app/</string>
+    <string name="about_project_info">QuickStock is an inventory management app designed for small businesses. It helps business owners and staff efficiently manage product catalogs, track sales, receive low-stock alerts, and generate reports on stock movement. Built using Java and Firebase, QuickStock ensures real-time data synchronization for better inventory control and decision-making.</string>
 </resources>

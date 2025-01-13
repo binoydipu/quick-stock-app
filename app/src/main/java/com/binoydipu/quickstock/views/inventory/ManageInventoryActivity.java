@@ -77,21 +77,11 @@ public class ManageInventoryActivity extends AppCompatActivity {
             }
         });
 
-        fbAddNewItem.setOnClickListener(v -> {
-            startActivity(new Intent(this, AddNewItemActivity.class));
-        });
+        fbAddNewItem.setOnClickListener(v -> startActivity(new Intent(this, AddNewItemActivity.class)));
+        stockSummary.setOnClickListener(v -> startActivity(new Intent(this, StockSummaryActivity.class)));
+        lowStockSummary.setOnClickListener(v -> startActivity(new Intent(this, LowStockActivity.class)));
 
-        stockSummary.setOnClickListener(v -> {
-
-        });
-
-        lowStockSummary.setOnClickListener(v -> {
-
-        });
-
-        onlineStore.setOnClickListener(v -> {
-            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
-        });
+        onlineStore.setOnClickListener(v -> Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show());
 
         ivSearchStaff.setOnClickListener(v -> {
             displayItemsList();

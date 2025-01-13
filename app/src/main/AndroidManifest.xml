@@ -15,6 +15,12 @@
         android:theme="@style/Theme.QuickStock"
         tools:targetApi="31">
         <activity
+            android:name=".views.inventory.LowStockActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.inventory.StockSummaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.AboutActivity"
             android:exported="false" />
         <activity

@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
+            android:baselineAligned="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_name_tv">
@@ -53,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sale Price"
                     android:textColor="@color/gray_text"
-                    android:textSize="15dp"/>
+                    android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/sale_price_tv"
                     android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
                     android:text="৳ 199.00"
                     android:textColor="@color/black_text"
                     android:textStyle="bold"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -75,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="Purchase Price"
                     android:textColor="@color/gray_text"
-                    android:textSize="15dp"/>
+                    android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/purchase_price_tv"
                     android:layout_width="wrap_content"
@@ -83,7 +84,7 @@
                     android:text="৳ 150.00"
                     android:textColor="@color/black_text"
                     android:textStyle="bold"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -97,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:text="Stock Size"
                     android:textColor="@color/gray_text"
-                    android:textSize="15dp"/>
+                    android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/stock_size_tv"
                     android:layout_width="wrap_content"
@@ -105,7 +106,7 @@
                     android:text="10.0"
                     android:textColor="@color/green"
                     android:textStyle="bold"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
         </LinearLayout>
