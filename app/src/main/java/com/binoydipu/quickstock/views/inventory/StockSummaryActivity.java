@@ -65,7 +65,7 @@ public class StockSummaryActivity extends AppCompatActivity {
         int lowItems = 0;
         double stockValue = 0;
         for(ItemModel item : itemModels) {
-            stockValue += item.getStockQuantity() * item.getPurchasePrice();
+            stockValue += item.getStockValue();
             if(item.getStockQuantity() < LOW_STOCK_LIMIT) lowItems++;
         }
         String stockValueString = NumberFormater.formatPrice(stockValue);

@@ -71,7 +71,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
         displayItemInfo();
         
         fbAdjustStock.setOnClickListener(v -> {
-            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
+            itemName = itemModel.getItemName();
+            Intent intent2 = new Intent(this, AdjustStockActivity.class);
+            intent2.putExtra("itemName", itemName);
+            startActivity(intent2);
         });
         ivToolbarBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
@@ -86,8 +89,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 String salePriceString = NumberFormater.formatPrice(itemModel.getSalePrice());
                 String stockQuantityString = String.valueOf(itemModel.getStockQuantity());
                 String expireDateString = NumberFormater.convertMillisToDate(itemModel.getExpireDateInMillis());
-                double stockValue = itemModel.getStockQuantity() >= 0 ? itemModel.getPurchasePrice() * itemModel.getStockQuantity() : 0.0;
-                String stockValueString = NumberFormater.formatPrice(stockValue);
+                String stockValueString = NumberFormater.formatPrice(itemModel.getStockValue());
 
                 tvItemName.setText(itemName);
                 tvItemCode.setText(itemModel.getItemCode());
@@ -98,7 +100,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 tvExpireDate.setText(expireDateString);
 
                 if(itemModel.getStockQuantity() < 0) {
-                    tvStockSize.setBackgroundColor(getResources().getColor(R.color.red, getTheme()));
+                    tvStockSize.setTextColor(getResources().getColor(R.color.red, getTheme()));
+                } else {
+                    tvStockSize.setTextColor(getResources().getColor(R.color.green, getTheme()));
                 }
             } else {
                 Toast.makeText(this, "Failed to retrieve item", Toast.LENGTH_SHORT).show();
@@ -131,6 +135,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
             intent.putExtra("salePrice", itemModel.getSalePrice());
             intent.putExtra("stockQuantity", itemModel.getStockQuantity());
             intent.putExtra("expireDateInMillis", itemModel.getExpireDateInMillis());
+            intent.putExtra("stockValue", itemModel.getStockValue());
             startActivity(intent);
         } else if(id == R.id.delete_item_menu) {
             new AlertDialog.Builder(this)

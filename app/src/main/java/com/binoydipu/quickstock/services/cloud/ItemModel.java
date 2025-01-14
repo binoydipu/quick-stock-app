@@ -2,19 +2,20 @@ package com.binoydipu.quickstock.services.cloud;
 
 public class ItemModel {
     private String itemName, itemCode;
-    private double purchasePrice, salePrice;
+    private double purchasePrice, salePrice, stockValue;
     private int stockQuantity;
     private long expireDateInMillis;
 
     public ItemModel() {}
 
-    public ItemModel(String itemName, String itemCode, double purchasePrice, double salePrice, int stockQuantity, long expireDateInMillis) {
+    public ItemModel(String itemName, String itemCode, double purchasePrice, double salePrice, int stockQuantity, long expireDateInMillis, double stockValue) {
         this.itemName = itemName;
         this.itemCode = itemCode;
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
         this.stockQuantity = stockQuantity;
         this.expireDateInMillis = expireDateInMillis;
+        this.stockValue = stockValue;
     }
 
     public String getItemName() {
@@ -63,5 +64,13 @@ public class ItemModel {
 
     public void setExpireDateInMillis(long expireDateInMillis) {
         this.expireDateInMillis = expireDateInMillis;
+    }
+
+    public double getStockValue() {
+        return stockValue;
+    }
+
+    public void setStockValue(double stockValue) {
+        this.stockValue = stockValue;
     }
 }

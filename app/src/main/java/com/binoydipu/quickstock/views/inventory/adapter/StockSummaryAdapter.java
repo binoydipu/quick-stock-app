@@ -37,7 +37,7 @@ public class StockSummaryAdapter extends RecyclerView.Adapter<StockSummaryAdapte
     public void onBindViewHolder(@NonNull StockSummaryAdapter.StockSummaryViewHolder holder, int position) {
         ItemModel itemModel = itemModels.get(position);
         holder.itemName.setText(itemModel.getItemName());
-        String stockValue = NumberFormater.formatPrice(itemModel.getPurchasePrice() * itemModel.getStockQuantity());
+        String stockValue = NumberFormater.formatPrice(itemModel.getStockValue());
         String stockQuantity = String.valueOf(itemModel.getStockQuantity());
         holder.stockValue.setText(stockValue);
         holder.stockQuantity.setText(stockQuantity);

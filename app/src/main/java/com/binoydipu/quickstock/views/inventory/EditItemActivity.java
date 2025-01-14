@@ -30,10 +30,10 @@ public class EditItemActivity extends AppCompatActivity {
 
     private ImageView ivToolbarBack;
     private TextInputEditText etItemName, etItemCode, etPurchasePrice,
-            etSalePrice, etStockQuantity, etStockExpireDate;
+            etSalePrice, etStockQuantity, etStockValue, etStockExpireDate;
     private TextView tvCancleItem, tvSaveItem;
     private String itemName, itemCode;
-    private double purchasePrice, salePrice;
+    private double purchasePrice, salePrice, stockValue;
     private int stockQuantity;
     long expireDateInMillis;
     private ProgressBar progressBar;
@@ -56,12 +56,14 @@ public class EditItemActivity extends AppCompatActivity {
         salePrice = intent.getDoubleExtra("salePrice", 0);
         stockQuantity = intent.getIntExtra("stockQuantity", 0);
         expireDateInMillis = intent.getLongExtra("expireDateInMillis", 0);
+        stockValue = intent.getDoubleExtra("stockValue", 0);
 
         etItemName = findViewById(R.id.item_name_et);
         etItemCode = findViewById(R.id.item_code_et);
         etPurchasePrice = findViewById(R.id.purchase_price_et);
         etSalePrice = findViewById(R.id.sale_price_et);
         etStockQuantity = findViewById(R.id.stock_quantity_et);
+        etStockValue = findViewById(R.id.stock_value_et);
         etStockExpireDate = findViewById(R.id.stock_expire_date_et);
         tvCancleItem = findViewById(R.id.cancle_item_tv);
         tvSaveItem = findViewById(R.id.save_item_tv);
@@ -95,9 +97,11 @@ public class EditItemActivity extends AppCompatActivity {
             String purchasePriceString = Objects.requireNonNull(etPurchasePrice.getText()).toString().trim();
             String salePriceString = Objects.requireNonNull(etSalePrice.getText()).toString().trim();
             String stockQuantityString = Objects.requireNonNull(etStockQuantity.getText()).toString().trim();
+            String stockValueString = Objects.requireNonNull(etStockValue.getText()).toString().trim();
             purchasePrice = parseDoubleValue(purchasePriceString);
             salePrice = parseDoubleValue(salePriceString);
             stockQuantity = parseIntegerValue(stockQuantityString);
+            stockValue = parseDoubleValue(stockValueString);
 
             if (itemName.isEmpty()) {
                 etItemName.setError("Required field!");
@@ -123,13 +127,19 @@ public class EditItemActivity extends AppCompatActivity {
             } else if (stockQuantity == -1) {
                 etStockQuantity.setError("Invalid Price!");
                 etStockQuantity.requestFocus();
+            } else if (stockValueString.isEmpty()) {
+                etStockValue.setError("Required field!");
+                etStockValue.requestFocus();
+            } else if (stockValue == -1.0) {
+                etStockValue.setError("Invalid Value!");
+                etStockValue.requestFocus();
             } else if (expireDateInMillis == -1) {
                 etStockExpireDate.setError("Required field!");
                 etStockExpireDate.requestFocus();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
-                cloudStorage.updateItem(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, isItemUpdated -> {
-                    progressBar.setVisibility(View.INVISIBLE);
+                cloudStorage.updateItem(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, stockValue, isItemUpdated -> {
+                    progressBar.setVisibility(View.GONE);
                     if(isItemUpdated) {
                         Toast.makeText(this, "Item Updated", Toast.LENGTH_SHORT).show();
                     } else {
@@ -148,6 +158,7 @@ public class EditItemActivity extends AppCompatActivity {
         String purchasePriceString = String.valueOf(purchasePrice);
         String salePriceString = String.valueOf(salePrice);
         String stockQuantityString = String.valueOf(stockQuantity);
+        String stockValueString = String.valueOf(stockValue);
         String expireDateString = NumberFormater.convertMillisToDate(expireDateInMillis);
 
         etItemName.setText(itemName);
@@ -155,6 +166,7 @@ public class EditItemActivity extends AppCompatActivity {
         etSalePrice.setText(salePriceString);
         etPurchasePrice.setText(purchasePriceString);
         etStockQuantity.setText(stockQuantityString);
+        etStockValue.setText(stockValueString);
         etStockExpireDate.setText(expireDateString);
     }
 

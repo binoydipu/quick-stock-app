@@ -82,7 +82,7 @@ public class FirebaseCloudStorage {
     }
 
     public void addNewItem(String itemName, String itemCode, double purchasePrice, double salePrice,
-                           int stockQuantity, long expireDateInMillis, OnNewItemAddedListener listener) {
+                           int stockQuantity, long expireDateInMillis, double stockValue, OnNewItemAddedListener listener) {
         DocumentReference db = firestore.collection(ITEM_COLLECTION).document(itemName);
         db.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -91,7 +91,7 @@ public class FirebaseCloudStorage {
                     listener.onItemAdded(ON_ITEM_EXISTS); // Notify failure due to duplicate item
                 } else {
                     // item doesn't exist
-                    ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis);
+                    ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, stockValue);
                     db.set(itemModel)
                             .addOnSuccessListener(aVoid -> {
                                 Log.d(TAG, "addNewItem:success");
@@ -110,9 +110,9 @@ public class FirebaseCloudStorage {
     }
 
     public void updateItem(String itemName, String itemCode, double purchasePrice, double salePrice,
-                           int stockQuantity, long expireDateInMillis, OnNewItemUpdatedListener listener) {
+                           int stockQuantity, long expireDateInMillis, double stockValue, OnNewItemUpdatedListener listener) {
         DocumentReference db = firestore.collection(ITEM_COLLECTION).document(itemName);
-        ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis);
+        ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, stockValue);
 
         db.set(itemModel)
                 .addOnSuccessListener(aVoid -> {

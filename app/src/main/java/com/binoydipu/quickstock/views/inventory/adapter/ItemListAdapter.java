@@ -44,7 +44,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         holder.salePrice.setText(salePrice);
         holder.stockSize.setText(stockSize);
         if(itemModel.getStockQuantity() < 0) {
-            holder.stockSize.setBackgroundColor(context.getResources().getColor(R.color.red, context.getTheme()));
+            holder.stockSize.setTextColor(context.getResources().getColor(R.color.red, context.getTheme()));
         }
     }
 

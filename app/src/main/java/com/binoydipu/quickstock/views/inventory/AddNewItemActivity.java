@@ -32,7 +32,7 @@ public class AddNewItemActivity extends AppCompatActivity {
             etSalePrice, etStockQuantity, etStockExpireDate;
     private TextView tvCancleItem, tvSaveItem;
     private ImageView ivToolbarBack;
-    long expireDateInMillis;
+    private long expireDateInMillis;
     private ProgressBar progressBar;
     private FirebaseCloudStorage cloudStorage;
 
@@ -119,7 +119,8 @@ public class AddNewItemActivity extends AppCompatActivity {
                 etStockExpireDate.requestFocus();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
-                cloudStorage.addNewItem(itemName, itemCode, dblPurchasePrice, dblSalePrice, intStockQuantity, expireDateInMillis, itemStatus -> {
+                double stockValue = intStockQuantity >= 0 ? dblPurchasePrice * intStockQuantity : 0;
+                cloudStorage.addNewItem(itemName, itemCode, dblPurchasePrice, dblSalePrice, intStockQuantity, expireDateInMillis, stockValue, itemStatus -> {
                     progressBar.setVisibility(View.INVISIBLE);
                     if(itemStatus.equals(ON_ITEM_EXISTS)) {
                         Toast.makeText(this, "Item Already Exists, Try updating existing one", Toast.LENGTH_SHORT).show();
