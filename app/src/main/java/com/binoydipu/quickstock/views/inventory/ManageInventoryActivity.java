@@ -14,22 +14,19 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
-import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
 import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.AboutActivity;
-import com.binoydipu.quickstock.views.HomeActivity;
-import com.binoydipu.quickstock.views.LoginActivity;
 import com.binoydipu.quickstock.views.NotificationActivity;
 import com.binoydipu.quickstock.views.ProfileActivity;
+import com.binoydipu.quickstock.views.inventory.adapter.ItemListAdapter;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;

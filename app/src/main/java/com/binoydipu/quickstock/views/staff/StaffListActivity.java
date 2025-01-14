@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.AuthUser;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
+import com.binoydipu.quickstock.views.staff.adapter.StaffListAdapter;
 
 import java.util.ArrayList;
 import java.util.Objects;

@@ -17,10 +17,9 @@ import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
 import com.binoydipu.quickstock.utilities.format.NumberFormater;
+import com.binoydipu.quickstock.views.inventory.adapter.StockSummaryAdapter;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 public class StockSummaryActivity extends AppCompatActivity {
