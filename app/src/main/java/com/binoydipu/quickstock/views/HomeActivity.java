@@ -19,6 +19,8 @@ import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.inventory.ManageInventoryActivity;
+import com.binoydipu.quickstock.views.reports.GenerateReportsActivity;
+import com.binoydipu.quickstock.views.sales.ManageSalesActivity;
 import com.binoydipu.quickstock.views.staff.StaffListActivity;
 
 import java.util.Objects;
@@ -56,10 +58,12 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
         cvTrackSales.setOnClickListener(v -> {
-            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, ManageSalesActivity.class);
+            startActivity(intent);
         });
         cvGenerateReports.setOnClickListener(v -> {
-            Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, GenerateReportsActivity.class);
+            startActivity(intent);
         });
     }
 

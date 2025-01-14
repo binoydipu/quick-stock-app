@@ -15,6 +15,21 @@
         android:theme="@style/Theme.QuickStock"
         tools:targetApi="31">
         <activity
+            android:name=".views.reports.ProfitLossReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.reports.InventoryReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.reports.SalesReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.reports.GenerateReportsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.sales.ManageSalesActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.inventory.AdjustStockActivity"
             android:exported="false" />
         <activity
