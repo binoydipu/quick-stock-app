@@ -1,12 +1,12 @@
 package com.binoydipu.quickstock.views;
 
 import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_USER_CREATION_FAILURE;
 import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
 import static com.binoydipu.quickstock.constants.RegexPatterns.idPattern;
 import static com.binoydipu.quickstock.constants.RegexPatterns.namePattern;
 import static com.binoydipu.quickstock.constants.RegexPatterns.passwordPattern;
 import static com.binoydipu.quickstock.constants.RegexPatterns.phonePattern;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_USER_CREATION_FAILURE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.binoydipu.quickstock.R;

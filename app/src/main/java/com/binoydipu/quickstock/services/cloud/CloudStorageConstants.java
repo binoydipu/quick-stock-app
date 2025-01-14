@@ -11,5 +11,9 @@ public class CloudStorageConstants {
 
     public static final String ITEM_COLLECTION = "items";
 
+    public static final String ON_ITEM_EXISTS = "alreadyExists";
+    public static final String ON_ITEM_ADDED = "itemAdded";
+    public static final String ON_ITEM_CHECK_FAILURE = "checkFailed";
+
     CloudStorageConstants() {}
 }

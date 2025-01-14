@@ -1,11 +1,10 @@
 package com.binoydipu.quickstock.services.auth;
 
-import static androidx.core.content.ContextCompat.startActivity;
 import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_FAILURE;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_USER_CREATION_FAILURE;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_LOGIN_FAILURE;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_LOGIN_SUCCESSFUL;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_USER_CREATION_FAILURE;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
-// Singleton Class
+
 public class FirebaseAuthProvider {
 
     private static final String TAG = "FirebaseAuthProvider";

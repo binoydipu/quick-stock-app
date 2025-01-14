@@ -1,8 +1,5 @@
 package com.binoydipu.quickstock.views.inventory;
 
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.ON_ITEM_ADDED;
-import static com.binoydipu.quickstock.services.cloud.CloudStorageConstants.ON_ITEM_EXISTS;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,25 +10,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedDispatcher;
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.binoydipu.quickstock.R;
-import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
+import com.binoydipu.quickstock.utilities.format.NumberFormater;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 import java.util.Objects;
 
-public class AddNewItemActivity extends AppCompatActivity {
+public class EditItemActivity extends AppCompatActivity {
 
+    private ImageView ivToolbarBack;
     private TextInputEditText etItemName, etItemCode, etPurchasePrice,
             etSalePrice, etStockQuantity, etStockExpireDate;
     private TextView tvCancleItem, tvSaveItem;
-    private ImageView ivToolbarBack;
+    private String itemName, itemCode;
+    private double purchasePrice, salePrice;
+    private int stockQuantity;
     long expireDateInMillis;
     private ProgressBar progressBar;
     private FirebaseCloudStorage cloudStorage;
@@ -39,12 +42,20 @@ public class AddNewItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_item);
+        setContentView(R.layout.activity_edit_item);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         ivToolbarBack = findViewById(R.id.toolbar_back_btn);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        Intent intent = getIntent();
+        itemName = intent.getStringExtra("itemName");
+        itemCode = intent.getStringExtra("itemCode");
+        purchasePrice = intent.getDoubleExtra("purchasePrice", 0);
+        salePrice = intent.getDoubleExtra("salePrice", 0);
+        stockQuantity = intent.getIntExtra("stockQuantity", 0);
+        expireDateInMillis = intent.getLongExtra("expireDateInMillis", 0);
 
         etItemName = findViewById(R.id.item_name_et);
         etItemCode = findViewById(R.id.item_code_et);
@@ -56,10 +67,8 @@ public class AddNewItemActivity extends AppCompatActivity {
         tvSaveItem = findViewById(R.id.save_item_tv);
         progressBar = findViewById(R.id.progress_circular);
         cloudStorage = FirebaseCloudStorage.getInstance();
-        expireDateInMillis = -1;
 
-        ivToolbarBack.setOnClickListener(v -> onBackPressed());
-        tvCancleItem.setOnClickListener(v -> onBackPressed());
+        setPreviousValues(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis);
 
         etStockExpireDate.setOnClickListener(view -> {
             // Get the current date as default
@@ -81,14 +90,14 @@ public class AddNewItemActivity extends AppCompatActivity {
         });
 
         tvSaveItem.setOnClickListener(v -> {
-            String itemName = Objects.requireNonNull(etItemName.getText()).toString().trim();
-            String itemCode = Objects.requireNonNull(etItemCode.getText()).toString().trim();
-            String purchasePrice = Objects.requireNonNull(etPurchasePrice.getText()).toString().trim();
-            String salePrice = Objects.requireNonNull(etSalePrice.getText()).toString().trim();
-            String stockQuantity = Objects.requireNonNull(etStockQuantity.getText()).toString().trim();
-            double dblPurchasePrice = parseDoubleValue(purchasePrice);
-            double dblSalePrice = parseDoubleValue(salePrice);
-            int intStockQuantity = parseIntegerValue(stockQuantity);
+            itemName = Objects.requireNonNull(etItemName.getText()).toString().trim();
+            itemCode = Objects.requireNonNull(etItemCode.getText()).toString().trim();
+            String purchasePriceString = Objects.requireNonNull(etPurchasePrice.getText()).toString().trim();
+            String salePriceString = Objects.requireNonNull(etSalePrice.getText()).toString().trim();
+            String stockQuantityString = Objects.requireNonNull(etStockQuantity.getText()).toString().trim();
+            purchasePrice = parseDoubleValue(purchasePriceString);
+            salePrice = parseDoubleValue(salePriceString);
+            stockQuantity = parseIntegerValue(stockQuantityString);
 
             if (itemName.isEmpty()) {
                 etItemName.setError("Required field!");
@@ -96,22 +105,22 @@ public class AddNewItemActivity extends AppCompatActivity {
             } else if (itemCode.isEmpty()) {
                 etItemCode.setError("Required field!");
                 etItemCode.requestFocus();
-            } else if (purchasePrice.isEmpty()) {
+            } else if (purchasePriceString.isEmpty()) {
                 etPurchasePrice.setError("Required field!");
                 etPurchasePrice.requestFocus();
-            } else if (dblPurchasePrice == -1.0) {
+            } else if (purchasePrice == -1.0) {
                 etPurchasePrice.setError("Invalid Price!");
                 etPurchasePrice.requestFocus();
-            } else if (salePrice.isEmpty()) {
+            } else if (salePriceString.isEmpty()) {
                 etSalePrice.setError("Required field!");
                 etSalePrice.requestFocus();
-            } else if (dblSalePrice == -1.0) {
+            } else if (salePrice == -1.0) {
                 etSalePrice.setError("Invalid Price!");
                 etSalePrice.requestFocus();
-            } else if (stockQuantity.isEmpty()) {
+            } else if (stockQuantityString.isEmpty()) {
                 etStockQuantity.setError("Required field!");
                 etStockQuantity.requestFocus();
-            } else if (intStockQuantity == -1) {
+            } else if (stockQuantity == -1) {
                 etStockQuantity.setError("Invalid Price!");
                 etStockQuantity.requestFocus();
             } else if (expireDateInMillis == -1) {
@@ -119,33 +128,34 @@ public class AddNewItemActivity extends AppCompatActivity {
                 etStockExpireDate.requestFocus();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
-                cloudStorage.addNewItem(itemName, itemCode, dblPurchasePrice, dblSalePrice, intStockQuantity, expireDateInMillis, itemStatus -> {
+                cloudStorage.updateItem(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, isItemUpdated -> {
                     progressBar.setVisibility(View.INVISIBLE);
-                    if(itemStatus.equals(ON_ITEM_EXISTS)) {
-                        Toast.makeText(this, "Item Already Exists, Try updating existing one", Toast.LENGTH_SHORT).show();
-                    } else if(itemStatus.equals(ON_ITEM_ADDED)) {
-                        Toast.makeText(this, "Item Added", Toast.LENGTH_SHORT).show();
-                        getOnBackPressedDispatcher().onBackPressed();
+                    if(isItemUpdated) {
+                        Toast.makeText(this, "Item Updated", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "An Error Occurred", Toast.LENGTH_SHORT).show();
-                        getOnBackPressedDispatcher().onBackPressed();
                     }
+                    getOnBackPressedDispatcher().onBackPressed();
                 });
             }
         });
+
+        ivToolbarBack.setOnClickListener(v -> onBackPressed());
+        tvCancleItem.setOnClickListener(v -> onBackPressed());
     }
 
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Discard Item")
-                .setMessage("Are you sure you want to discard this item?")
-                .setIcon(R.drawable.quick_stock)
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    super.onBackPressed();
-                })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .show();
+    private void setPreviousValues(String itemName, String itemCode, double purchasePrice, double salePrice, int stockQuantity, long expireDateInMillis) {
+        String purchasePriceString = String.valueOf(purchasePrice);
+        String salePriceString = String.valueOf(salePrice);
+        String stockQuantityString = String.valueOf(stockQuantity);
+        String expireDateString = NumberFormater.convertMillisToDate(expireDateInMillis);
+
+        etItemName.setText(itemName);
+        etItemCode.setText(itemCode);
+        etSalePrice.setText(salePriceString);
+        etPurchasePrice.setText(purchasePriceString);
+        etStockQuantity.setText(stockQuantityString);
+        etStockExpireDate.setText(expireDateString);
     }
 
     private double parseDoubleValue(String value) {
@@ -153,7 +163,7 @@ public class AddNewItemActivity extends AppCompatActivity {
         try {
             parsedValue = Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            Log.e("AddNewItemActivity", "String to Double Conversion Failed");
+            Log.e("EditItemActivity", "String to Double Conversion Failed");
         }
         return parsedValue;
     }
@@ -162,8 +172,21 @@ public class AddNewItemActivity extends AppCompatActivity {
         try {
             parsedValue = Integer.parseInt(value);
         } catch (NumberFormatException e) {
-            Log.e("AddNewItemActivity", "String to Int Conversion Failed");
+            Log.e("EditItemActivity", "String to Int Conversion Failed");
         }
         return parsedValue;
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Discard Change?")
+                .setMessage("Are you sure you want to discard the changes?")
+                .setIcon(R.drawable.quick_stock)
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    super.onBackPressed();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }

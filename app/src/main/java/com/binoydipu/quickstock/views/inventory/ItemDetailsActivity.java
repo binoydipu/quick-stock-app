@@ -2,12 +2,17 @@ package com.binoydipu.quickstock.views.inventory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -16,7 +21,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
+import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
+import com.binoydipu.quickstock.services.cloud.ItemModel;
+import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.utilities.format.NumberFormater;
+import com.binoydipu.quickstock.views.AboutActivity;
+import com.binoydipu.quickstock.views.NotificationActivity;
+import com.binoydipu.quickstock.views.ProfileActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.Objects;
@@ -24,10 +35,13 @@ import java.util.Objects;
 public class ItemDetailsActivity extends AppCompatActivity {
 
     private TextView tvItemName, tvSalePrice, tvPurchasePrice, tvStockSize, tvStockValue, tvItemCode, tvExpireDate;
+    private String itemName;
     private ProgressBar progressBar;
-    private RecyclerView rvItemDetails;
+    private RecyclerView rvItemTransactions;
     private ImageView ivToolbarBack;
     private ExtendedFloatingActionButton fbAdjustStock;
+    private ItemModel itemModel;
+    private FirebaseCloudStorage cloudStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +62,13 @@ public class ItemDetailsActivity extends AppCompatActivity {
         tvExpireDate = findViewById(R.id.expire_date_tv);
         fbAdjustStock = findViewById(R.id.adjust_stock_fb);
         progressBar = findViewById(R.id.progress_circular);
-        rvItemDetails = findViewById(R.id.stock_transactions_recyclerview);
+        rvItemTransactions = findViewById(R.id.stock_transactions_recyclerview);
+        itemModel = new ItemModel();
+        cloudStorage = FirebaseCloudStorage.getInstance();
 
         Intent intent = getIntent();
-        String itemName = intent.getStringExtra("itemName");
-        String itemCode = intent.getStringExtra("itemCode");
-        double purchasePrice = intent.getDoubleExtra("purchasePrice", 0);
-        double salePrice = intent.getDoubleExtra("salePrice", 0);
-        int stockQuantity = intent.getIntExtra("stockQuantity", 0);
-        long expireDateInMillis = intent.getLongExtra("expireDateInMillis", 0);
-
-        displayItemInfo(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis);
+        itemName = intent.getStringExtra("itemName");
+        displayItemInfo();
         
         fbAdjustStock.setOnClickListener(v -> {
             Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show();
@@ -66,25 +76,80 @@ public class ItemDetailsActivity extends AppCompatActivity {
         ivToolbarBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
-    private void displayItemInfo(String itemName, String itemCode, double purchasePrice, double salePrice,
-                                 int stockQuantity, long expireDateInMillis) {
-        String purchasePriceString = NumberFormater.formatPrice(purchasePrice);
-        String salePriceString = NumberFormater.formatPrice(salePrice);
-        String stockQuantityString = String.valueOf(stockQuantity);
-        String expireDateString = NumberFormater.convertMillisToDate(expireDateInMillis);
-        double stockValue = stockQuantity >= 0 ? purchasePrice * stockQuantity : 0.0;
-        String stockValueString = NumberFormater.formatPrice(stockValue);
+    private void displayItemInfo() {
+        progressBar.setVisibility(View.VISIBLE);
+        cloudStorage.getItemByName(itemName, item -> {
+            progressBar.setVisibility(View.GONE);
+            if(item != null) {
+                itemModel = item;
+                String purchasePriceString = NumberFormater.formatPrice(itemModel.getPurchasePrice());
+                String salePriceString = NumberFormater.formatPrice(itemModel.getSalePrice());
+                String stockQuantityString = String.valueOf(itemModel.getStockQuantity());
+                String expireDateString = NumberFormater.convertMillisToDate(itemModel.getExpireDateInMillis());
+                double stockValue = itemModel.getStockQuantity() >= 0 ? itemModel.getPurchasePrice() * itemModel.getStockQuantity() : 0.0;
+                String stockValueString = NumberFormater.formatPrice(stockValue);
 
-        tvItemName.setText(itemName);
-        tvItemCode.setText(itemCode);
-        tvSalePrice.setText(salePriceString);
-        tvPurchasePrice.setText(purchasePriceString);
-        tvStockSize.setText(stockQuantityString);
-        tvStockValue.setText(stockValueString);
-        tvExpireDate.setText(expireDateString);
+                tvItemName.setText(itemName);
+                tvItemCode.setText(itemModel.getItemCode());
+                tvSalePrice.setText(salePriceString);
+                tvPurchasePrice.setText(purchasePriceString);
+                tvStockSize.setText(stockQuantityString);
+                tvStockValue.setText(stockValueString);
+                tvExpireDate.setText(expireDateString);
 
-        if(stockQuantity < 0) {
-            tvStockSize.setBackgroundColor(getResources().getColor(R.color.red, getTheme()));
+                if(itemModel.getStockQuantity() < 0) {
+                    tvStockSize.setBackgroundColor(getResources().getColor(R.color.red, getTheme()));
+                }
+            } else {
+                Toast.makeText(this, "Failed to retrieve item", Toast.LENGTH_SHORT).show();
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayItemInfo();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.item_detail_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.edit_item_menu) {
+            itemName = itemModel.getItemName();
+            Intent intent = new Intent(this, EditItemActivity.class);
+            intent.putExtra("itemName", itemName);
+            intent.putExtra("itemCode", itemModel.getItemCode());
+            intent.putExtra("purchasePrice", itemModel.getPurchasePrice());
+            intent.putExtra("salePrice", itemModel.getSalePrice());
+            intent.putExtra("stockQuantity", itemModel.getStockQuantity());
+            intent.putExtra("expireDateInMillis", itemModel.getExpireDateInMillis());
+            startActivity(intent);
+        } else if(id == R.id.delete_item_menu) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Item?")
+                    .setMessage("Are you sure you want to delete the item?")
+                    .setIcon(R.drawable.quick_stock)
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        cloudStorage.deleteItemByName(itemName, isItemDeleted -> {
+                            if(isItemDeleted) {
+                                Toast.makeText(this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "An Error Occurred", Toast.LENGTH_SHORT).show();
+                            }
+                            getOnBackPressedDispatcher().onBackPressed();
+                        });
+                    })
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .show();
         }
+        return true;
     }
 }

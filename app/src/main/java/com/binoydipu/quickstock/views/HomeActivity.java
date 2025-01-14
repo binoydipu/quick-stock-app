@@ -115,24 +115,4 @@ public class HomeActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    /*
-    private void logoutUser() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to logout?")
-                .setIcon(R.drawable.quick_stock)
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    if(authProvider.logOut()) {
-                        Toast.makeText(this, "Logout Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Could Not Logout User", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .show();
-    }*/
 }

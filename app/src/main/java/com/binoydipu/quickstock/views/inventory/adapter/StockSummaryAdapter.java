@@ -61,21 +61,8 @@ public class StockSummaryAdapter extends RecyclerView.Adapter<StockSummaryAdapte
         @Override
         public void onClick(View v) {
             int position = this.getAdapterPosition();
-            ItemModel itemModel = itemModels.get(position);
-            String itemName = itemModel.getItemName();
-            String itemCode = itemModel.getItemCode();
-            double purchasePrice = itemModel.getPurchasePrice();
-            double salePrice = itemModel.getSalePrice();
-            int stockQuantity = itemModel.getStockQuantity();
-            long expireDateInMillis = itemModel.getExpireDateInMillis();
-
             Intent intent = new Intent(context, ItemDetailsActivity.class);
-            intent.putExtra("itemName", itemName);
-            intent.putExtra("itemCode", itemCode);
-            intent.putExtra("purchasePrice", purchasePrice);
-            intent.putExtra("salePrice", salePrice);
-            intent.putExtra("stockQuantity", stockQuantity);
-            intent.putExtra("expireDateInMillis", expireDateInMillis);
+            intent.putExtra("itemName", itemModels.get(position).getItemName());
             context.startActivity(intent);
         }
     }

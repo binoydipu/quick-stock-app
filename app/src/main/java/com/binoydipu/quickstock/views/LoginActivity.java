@@ -1,9 +1,9 @@
 package com.binoydipu.quickstock.views;
 
 import static com.binoydipu.quickstock.constants.ConstantValues.ADMIN_EMAIL;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
-import static com.binoydipu.quickstock.constants.ConstantValues.ON_LOGIN_SUCCESSFUL;
 import static com.binoydipu.quickstock.constants.RegexPatterns.emailPattern;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_LOGIN_PENDING_EMAIL_VERIFICATION;
+import static com.binoydipu.quickstock.services.auth.AuthProviderConstants.ON_LOGIN_SUCCESSFUL;
 
 import android.content.Intent;
 import android.os.Bundle;

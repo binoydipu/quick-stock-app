@@ -63,6 +63,7 @@ public class LowStockActivity extends AppCompatActivity {
     private void displayLowStockSummary() {
         int lowItems = 0;
         double lowStockValue = 0;
+        lowStockItems.clear();
         for(ItemModel item : itemModels) {
             if(item.getStockQuantity() < LOW_STOCK_LIMIT) {
                 if(item.getStockQuantity() > 0) lowStockValue += item.getStockQuantity() * item.getPurchasePrice();
