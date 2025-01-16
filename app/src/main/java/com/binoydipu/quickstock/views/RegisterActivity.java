@@ -38,11 +38,25 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // In case of user already logged in
+        progressBar = findViewById(R.id.progress_circular);
         if(authProvider.isUserLoggedIn()) { // user != null
             if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL) || authProvider.isUserEmailVerified()) { // user email is verified
-                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) {
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    cloudStorage = FirebaseCloudStorage.getInstance();
+                    cloudStorage.getUserByUserId(authProvider.getCurrentUserId(), user -> {
+                        if(user != null && user.isStaffVerified()) {
+                            Intent intent = new Intent(this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            startActivity(new Intent(this, NotVerifiedActivity.class));
+                        }
+                    });
+                }
             }
         }
     }

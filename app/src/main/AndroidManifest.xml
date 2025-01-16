@@ -15,6 +15,15 @@
         android:theme="@style/Theme.QuickStock"
         tools:targetApi="31">
         <activity
+            android:name=".views.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.NotVerifiedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.sales.AddNewSaleActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.reports.ProfitLossReportActivity"
             android:exported="false" />
         <activity

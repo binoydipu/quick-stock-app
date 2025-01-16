@@ -10,12 +10,13 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-
 
 public class FirebaseAuthProvider {
 
@@ -39,6 +40,11 @@ public class FirebaseAuthProvider {
         return mAuth.getCurrentUser().getEmail();
     }
 
+    public String getCurrentUserId() {
+        assert mAuth.getCurrentUser() != null;
+        return mAuth.getCurrentUser().getUid();
+    }
+
     public boolean isUserLoggedIn() {
         return mAuth.getCurrentUser() != null;
     }
@@ -46,6 +52,18 @@ public class FirebaseAuthProvider {
     public boolean isUserEmailVerified() {
         assert mAuth.getCurrentUser() != null;
         return mAuth.getCurrentUser().isEmailVerified();
+    }
+
+    public void isUserAuthenticated(String password, OnUserAuthenticationListener listener) {
+        mAuth.getCurrentUser().reauthenticate(
+                EmailAuthProvider.getCredential(mAuth.getCurrentUser().getEmail(), password))
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        listener.onUserAuthenticated(true);
+                    } else {
+                        listener.onUserAuthenticated(false);
+                    }
+                });
     }
 
     public boolean logOut() {
@@ -145,5 +163,9 @@ public class FirebaseAuthProvider {
 
     public interface OnLoginEventListener {
         void onLoginSuccess(String loginStatus);
+    }
+
+    public interface OnUserAuthenticationListener {
+        void onUserAuthenticated(boolean isAuthenticated);
     }
 }

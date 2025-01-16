@@ -8,46 +8,47 @@
     android:background="@color/light_background"
     tools:context=".views.inventory.AddNewItemActivity">
 
-    <ScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background_color"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/toolbar_back_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Back Button"
+            android:src="@drawable/back_ang_icon">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Item"
+            android:textColor="@color/black_text"
+            android:fontFamily="@font/moresugar_regular"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background_color"
-                android:elevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/toolbar_back_btn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="Back Button"
-                    android:src="@drawable/back_ang_icon">
-                </ImageView>
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add New Item"
-                    android:textColor="@color/black_text"
-                    android:fontFamily="@font/moresugar_regular"
-                    android:textSize="24sp"
-                    android:layout_gravity="center"/>
-
-            </androidx.appcompat.widget.Toolbar>
 
             <TextView
                 android:id="@+id/product_info_tv"
@@ -59,7 +60,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et1"
@@ -259,7 +260,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="Cancle"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:background="@color/white"
             android:textStyle="bold"
             android:textColor="@color/black_text"/>
@@ -271,7 +272,7 @@
             android:layout_height="match_parent"
             android:background="@color/floating_button"
             android:text="Save"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/white"/>

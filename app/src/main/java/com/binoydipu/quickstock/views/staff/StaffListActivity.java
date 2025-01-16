@@ -72,7 +72,7 @@ public class StaffListActivity extends AppCompatActivity {
         String searchText = etSearchKeyword.getText().toString().trim();
         rvStaffLists.setLayoutManager(new LinearLayoutManager(this));
         StaffListAdapter staffListAdapter = new StaffListAdapter(this, staffList);
-        staffListAdapter.filterProducts(searchText);
+        staffListAdapter.filterStaffs(searchText);
         rvStaffLists.setAdapter(staffListAdapter);
     }
 

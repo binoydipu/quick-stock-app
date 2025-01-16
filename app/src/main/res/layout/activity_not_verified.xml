@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_background"
-    tools:context=".views.reports.SalesReportActivity">
+    tools:context=".views.NotVerifiedActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:background="@color/background_color"
         android:elevation="4dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,29 +23,45 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:contentDescription="Back Button"
-            android:src="@drawable/back_ang_icon"/>
+            android:src="@drawable/back_ang_icon" />
 
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sales Report"
-            android:textColor="@color/black_text"
+            android:layout_gravity="center"
             android:fontFamily="@font/moresugar_regular"
-            android:textSize="24sp"
-            android:layout_gravity="center"/>
+            android:text="Pending Verification"
+            android:textColor="@color/black_text"
+            android:textSize="24sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Not Yet Available"
+        android:text="Waiting for the admin to verify your account"
         android:textColor="@color/black_text"
-        android:textSize="18sp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/delius_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try contacting with your Manager"
+        android:fontFamily="@font/delius_regular"
+        android:textColor="@color/black_text"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

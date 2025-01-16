@@ -27,6 +27,7 @@ import com.binoydipu.quickstock.views.AboutActivity;
 import com.binoydipu.quickstock.views.NotificationActivity;
 import com.binoydipu.quickstock.views.ProfileActivity;
 import com.binoydipu.quickstock.views.inventory.adapter.ItemListAdapter;
+import com.binoydipu.quickstock.views.reports.InventoryReportActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ManageInventoryActivity extends AppCompatActivity {
     private ExtendedFloatingActionButton fbAddNewItem;
     private EditText etSearchKeyword;
     private ImageView ivClearSearch, ivSearchStaff, ivToolbarBack;
-    private LinearLayout stockSummary, lowStockSummary, onlineStore;
+    private LinearLayout stockSummary, lowStockSummary, onlineStore, inventoryReport;
 
     private ArrayList<ItemModel> itemModels;
     private ProgressBar progressBar;
@@ -60,6 +61,7 @@ public class ManageInventoryActivity extends AppCompatActivity {
         rvItemsList = findViewById(R.id.inventory_recyclerview);
         stockSummary = findViewById(R.id.stock_summary_tv);
         lowStockSummary = findViewById(R.id.low_stock_summary_tv);
+        inventoryReport = findViewById(R.id.inventory_report_ll);
         onlineStore = findViewById(R.id.online_store_tv);
         etSearchKeyword = findViewById(R.id.search_keywords_et);
         ivClearSearch = findViewById(R.id.clear_search_text_iv);
@@ -78,7 +80,7 @@ public class ManageInventoryActivity extends AppCompatActivity {
         fbAddNewItem.setOnClickListener(v -> startActivity(new Intent(this, AddNewItemActivity.class)));
         stockSummary.setOnClickListener(v -> startActivity(new Intent(this, StockSummaryActivity.class)));
         lowStockSummary.setOnClickListener(v -> startActivity(new Intent(this, LowStockActivity.class)));
-
+        inventoryReport.setOnClickListener(v -> startActivity(new Intent(this, InventoryReportActivity.class)));
         onlineStore.setOnClickListener(v -> Toast.makeText(this, "Not Available Yet", Toast.LENGTH_SHORT).show());
 
         ivSearchStaff.setOnClickListener(v -> {
@@ -94,8 +96,10 @@ public class ManageInventoryActivity extends AppCompatActivity {
     }
 
     private void displayItemsList() {
+        String searchText = etSearchKeyword.getText().toString().trim();
         rvItemsList.setLayoutManager(new LinearLayoutManager(this));
         ItemListAdapter itemListAdapter = new ItemListAdapter(this, itemModels);
+        itemListAdapter.filterItems(searchText);
         rvItemsList.setAdapter(itemListAdapter);
     }
 

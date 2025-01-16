@@ -37,8 +37,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:scrollbarStyle="outsideOverlay">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/moresugar_regular"
-                android:text="Mr. Binoy Barman"
+                android:text="User Name"
                 android:textColor="@color/black_text"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="binoy@quickstock.com"
+                android:text="email address"
                 android:textColor="@color/gray_text"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
                         android:id="@+id/staff_id_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12345"
+                        android:text=""
                         android:textSize="16sp"
                         android:layout_marginVertical="10dp"
                         android:textColor="@color/black_text"
@@ -185,7 +185,7 @@
                         android:id="@+id/mobile_no_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+880 1233 886672"
+                        android:text=""
                         android:textSize="16sp"
                         android:layout_marginVertical="10dp"
                         android:textColor="@color/black_text"

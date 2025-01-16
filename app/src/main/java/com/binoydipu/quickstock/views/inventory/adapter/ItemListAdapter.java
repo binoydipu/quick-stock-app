@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
+import com.binoydipu.quickstock.services.auth.AuthUser;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
 import com.binoydipu.quickstock.utilities.format.NumberFormater;
 import com.binoydipu.quickstock.views.inventory.ItemDetailsActivity;
@@ -19,11 +21,12 @@ import java.util.ArrayList;
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemListViewHolder>{
     private Context context;
-    private ArrayList<ItemModel> itemModels;
+    private ArrayList<ItemModel> itemModels, filteredItemModels;
 
     public ItemListAdapter(Context context, ArrayList<ItemModel> itemModels) {
         this.context = context;
         this.itemModels = itemModels;
+        filteredItemModels = new ArrayList<>(itemModels);
     }
 
     @NonNull
@@ -35,7 +38,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
     @Override
     public void onBindViewHolder(@NonNull ItemListAdapter.ItemListViewHolder holder, int position) {
-        ItemModel itemModel = itemModels.get(position);
+        ItemModel itemModel = filteredItemModels.get(position);
         holder.itemName.setText(itemModel.getItemName());
         String purchasePrice = NumberFormater.formatPrice(itemModel.getPurchasePrice());
         String salePrice = NumberFormater.formatPrice(itemModel.getSalePrice());
@@ -50,7 +53,24 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
 
     @Override
     public int getItemCount() {
-        return itemModels.size();
+        return filteredItemModels.size();
+    }
+
+    public void filterItems(String searchText) {
+        ArrayList<ItemModel> tempList = new ArrayList<>();
+        if (searchText.isEmpty()) {
+            tempList.addAll(itemModels);  // Add all items if search text is empty
+        } else {
+            searchText = searchText.toLowerCase();
+            for (ItemModel item : itemModels) {
+                if (item.getItemName().toLowerCase().contains(searchText)) {
+                    tempList.add(item);
+                }
+            }
+        }
+        filteredItemModels.clear();
+        filteredItemModels.addAll(tempList);
+        notifyDataSetChanged();
     }
 
     public class ItemListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -68,7 +88,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemLi
         public void onClick(View v) {
             int position = this.getAdapterPosition();
             Intent intent = new Intent(context, ItemDetailsActivity.class);
-            intent.putExtra("itemName", itemModels.get(position).getItemName());
+            intent.putExtra("itemName", filteredItemModels.get(position).getItemName());
             context.startActivity(intent);
         }
     }

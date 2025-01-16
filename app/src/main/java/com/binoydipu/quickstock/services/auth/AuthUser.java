@@ -2,17 +2,18 @@ package com.binoydipu.quickstock.services.auth;
 
 public class AuthUser {
     private String userId, userName, staffId, userEmail, mobileNo;
-    private boolean isEmailVerified;
+    private boolean isEmailVerified, isStaffVerified;
 
     public AuthUser() {}
 
-    public AuthUser(String userId, String userName, String staffId, String userEmail, String mobileNo, boolean isEmailVerified) {
+    public AuthUser(String userId, String userName, String staffId, String userEmail, String mobileNo, boolean isEmailVerified, boolean isStaffVerified) {
         this.userId = userId;
         this.userName = userName;
         this.staffId = staffId;
         this.userEmail = userEmail;
         this.mobileNo = mobileNo;
         this.isEmailVerified = isEmailVerified;
+        this.isStaffVerified = isStaffVerified;
     }
 
     public String getUserId() {
@@ -61,5 +62,13 @@ public class AuthUser {
 
     public void setEmailVerified(boolean emailVerified) {
         isEmailVerified = emailVerified;
+    }
+
+    public boolean isStaffVerified() {
+        return isStaffVerified;
+    }
+
+    public void setStaffVerified(boolean staffVerified) {
+        isStaffVerified = staffVerified;
     }
 }

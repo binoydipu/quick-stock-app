@@ -27,4 +27,10 @@ public class NumberFormater {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTimeInMillis();
     }
+
+    public static String getTodayDateString() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
 }

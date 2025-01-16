@@ -73,6 +73,7 @@ public class ManageSalesActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(etSearchKeyword.getWindowToken(), 0);
         });
 
+        fbAddNewSale.setOnClickListener(v -> startActivity(new Intent(this, AddNewSaleActivity.class)));
         salesReport.setOnClickListener(v -> startActivity(new Intent(this, SalesReportActivity.class)));
         profitAndLoss.setOnClickListener(v -> startActivity(new Intent(this, ProfitLossReportActivity.class)));
         ivClearSearch.setOnClickListener(v -> etSearchKeyword.setText(""));

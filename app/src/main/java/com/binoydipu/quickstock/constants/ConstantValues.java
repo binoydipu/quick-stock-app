@@ -2,7 +2,7 @@ package com.binoydipu.quickstock.constants;
 
 public class ConstantValues {
     public static final String ADMIN_EMAIL = "admin@quickstock.com";
-    public static final int SPLASH_SCREEN_TIMEOUT = 1000;
+    public static final int SPLASH_SCREEN_TIMEOUT = 1500;
     public static final int LOW_STOCK_LIMIT = 10;
 
     public static final String PREF_SWITCH = "SwitchPrefs";

@@ -38,7 +38,7 @@ public class FirebaseCloudStorage {
     public void storeUserInfo(String userId, String name, String id, String email, String mobile,
                               boolean emailVerified, OnUserInfoStoredListener listener) {
         DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
-        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified);
+        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified, false);
 
         db.set(userInfo)
                 .addOnSuccessListener(aVoid -> {
@@ -49,6 +49,69 @@ public class FirebaseCloudStorage {
                     Log.w(TAG, "storeUserInfo:failure- " + e);
                     listener.onUserInfoStored(false); // Notify failure
                 });
+    }
+
+    public void updateUser(String userId, String name, String id, String email, String mobile,
+                           boolean emailVerified, boolean staffVerified, OnUserUpdatedListener listener) {
+        DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
+        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified, staffVerified);
+
+        db.set(userInfo)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "updateUser:success");
+                    listener.onUserUpdated(true); // Notify success
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "updateUser:failure- " + e);
+                    listener.onUserUpdated(false); // Notify failure
+                });
+    }
+
+    public void deleteUserByUserId(String userId, OnItemDeletedListener listener) {
+        DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
+
+        db.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().exists()) {
+                    db.delete()
+                            .addOnSuccessListener(aVoid -> {
+                                Log.d(TAG, "deleteUserByUserId:success");
+                                listener.onItemDeleted(true); // Notify success
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.w(TAG, "deleteUserByUserId:failed", e);
+                                listener.onItemDeleted(false); // Notify failure
+                            });
+                } else {
+                    Log.w(TAG, "deleteUserByUserId: User not found");
+                    listener.onItemDeleted(false); // Item doesn't exist
+                }
+            } else {
+                Log.e(TAG, "deleteUserByUserId: Error checking user existence", task.getException());
+                listener.onItemDeleted(false); // Error checking existence
+            }
+        });
+    }
+
+    public void getUserByUserId(String userId, OnUserRetrievedListener listener) {
+        DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
+
+        db.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    AuthUser user = document.toObject(AuthUser.class);
+                    Log.d(TAG, "getUserByUserId:success");
+                    listener.onUserRetrieved(user); // Return the item through the listener
+                } else {
+                    Log.w(TAG, "getUserByUserId:not found");
+                    listener.onUserRetrieved(null);
+                }
+            } else {
+                Log.e(TAG, "getUserByUserId:error", task.getException());
+                listener.onUserRetrieved(null);
+            }
+        });
     }
 
     public ArrayList<AuthUser> getAllUsers(Context context, OnStaffDataReceivedListener listener) {
@@ -110,7 +173,7 @@ public class FirebaseCloudStorage {
     }
 
     public void updateItem(String itemName, String itemCode, double purchasePrice, double salePrice,
-                           int stockQuantity, long expireDateInMillis, double stockValue, OnNewItemUpdatedListener listener) {
+                           int stockQuantity, long expireDateInMillis, double stockValue, OnItemUpdatedListener listener) {
         DocumentReference db = firestore.collection(ITEM_COLLECTION).document(itemName);
         ItemModel itemModel = new ItemModel(itemName, itemCode, purchasePrice, salePrice, stockQuantity, expireDateInMillis, stockValue);
 
@@ -215,12 +278,20 @@ public class FirebaseCloudStorage {
         void onItemAdded(String itemStatus);
     }
 
-    public interface OnNewItemUpdatedListener {
+    public interface OnItemUpdatedListener {
         void onItemUpdated(boolean isItemUpdated);
+    }
+
+    public interface OnUserUpdatedListener {
+        void onUserUpdated(boolean isUserUpdated);
     }
 
     public interface OnItemRetrievedListener {
         void onItemRetrieved(ItemModel itemModel);
+    }
+
+    public interface OnUserRetrievedListener {
+        void onUserRetrieved(AuthUser user);
     }
 
     public interface OnItemDeletedListener {
