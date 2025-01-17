@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +18,8 @@ import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.inventory.ManageInventoryActivity;
+import com.binoydipu.quickstock.views.profile.NotificationActivity;
+import com.binoydipu.quickstock.views.profile.ProfileActivity;
 import com.binoydipu.quickstock.views.reports.GenerateReportsActivity;
 import com.binoydipu.quickstock.views.sales.ManageSalesActivity;
 import com.binoydipu.quickstock.views.staff.StaffListActivity;

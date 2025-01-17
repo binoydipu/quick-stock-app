@@ -7,20 +7,16 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.AboutActivity;
-import com.binoydipu.quickstock.views.NotificationActivity;
-import com.binoydipu.quickstock.views.ProfileActivity;
+import com.binoydipu.quickstock.views.profile.NotificationActivity;
+import com.binoydipu.quickstock.views.profile.ProfileActivity;
 
 import java.util.Objects;
 

@@ -21,13 +21,12 @@ import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.views.AboutActivity;
-import com.binoydipu.quickstock.views.NotificationActivity;
-import com.binoydipu.quickstock.views.ProfileActivity;
+import com.binoydipu.quickstock.views.profile.NotificationActivity;
+import com.binoydipu.quickstock.views.profile.ProfileActivity;
 import com.binoydipu.quickstock.views.reports.ProfitLossReportActivity;
 import com.binoydipu.quickstock.views.reports.SalesReportActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class ManageSalesActivity extends AppCompatActivity {

@@ -10,24 +10,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.binoydipu.quickstock.R;
 import com.binoydipu.quickstock.services.cloud.FirebaseCloudStorage;
 import com.binoydipu.quickstock.services.cloud.ItemModel;
-import com.binoydipu.quickstock.utilities.dialogs.DialogHelper;
 import com.binoydipu.quickstock.utilities.format.NumberFormater;
-import com.binoydipu.quickstock.views.AboutActivity;
-import com.binoydipu.quickstock.views.NotificationActivity;
-import com.binoydipu.quickstock.views.ProfileActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.Objects;

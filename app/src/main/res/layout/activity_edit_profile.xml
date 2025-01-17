@@ -9,7 +9,7 @@
     android:gravity="center"
     android:scrollbarStyle="outsideOverlay"
     android:background="@color/light_background"
-    tools:context=".views.EditProfileActivity">
+    tools:context=".views.profile.EditProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -55,14 +55,12 @@ public class FirebaseAuthProvider {
     }
 
     public void isUserAuthenticated(String password, OnUserAuthenticationListener listener) {
-        mAuth.getCurrentUser().reauthenticate(
-                EmailAuthProvider.getCredential(mAuth.getCurrentUser().getEmail(), password))
+        FirebaseUser user = mAuth.getCurrentUser();
+        assert user != null;
+        user.reauthenticate(
+                EmailAuthProvider.getCredential(user.getEmail(), password))
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        listener.onUserAuthenticated(true);
-                    } else {
-                        listener.onUserAuthenticated(false);
-                    }
+                    listener.onUserAuthenticated(task.isSuccessful());
                 });
     }
 
@@ -98,6 +96,49 @@ public class FirebaseAuthProvider {
                 });
 
     }
+
+    public void deleteUser(Context context, String userId, String password, OnUserDeletedListener listener) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null && user.getUid().equals(userId)) {
+            // Re-authenticate the user before deleting
+            user.reauthenticate(EmailAuthProvider.getCredential(user.getEmail(), password))
+                    .addOnCompleteListener(reauthTask -> {
+                        if (reauthTask.isSuccessful()) {
+                            Log.d(TAG, "Re-authentication successful");
+                            FirebaseCloudStorage.getInstance().deleteUserByUserId(userId, isDeleted -> {
+                                if (isDeleted) {
+                                    Log.d(TAG, "User data deleted from Firestore");
+
+                                    user.delete().addOnCompleteListener(deleteTask -> {
+                                        if (deleteTask.isSuccessful()) {
+                                            Log.d(TAG, "User successfully deleted from Firebase Auth");
+                                            listener.onUserDeleted(true);
+                                        } else {
+                                            Log.w(TAG, "Failed to delete user from Firebase Auth", deleteTask.getException());
+                                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                                            listener.onUserDeleted(false);
+                                        }
+                                    });
+
+                                } else {
+                                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                                    Log.w(TAG, "Failed to delete user data from Firestore");
+                                    listener.onUserDeleted(false);
+                                }
+                            });
+                        } else {
+                            Log.w(TAG, "Re-authentication failed", reauthTask.getException());
+                            Toast.makeText(context, "Re-authentication required before deleting account", Toast.LENGTH_SHORT).show();
+                            listener.onUserDeleted(false);
+                        }
+                    });
+        } else {
+            Log.w(TAG, "User not authenticated or ID mismatch");
+            listener.onUserDeleted(false);
+        }
+    }
+
 
     public void logIn(Context context, String email, String password, OnLoginEventListener listener) {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -137,7 +178,7 @@ public class FirebaseAuthProvider {
                             Toast.makeText(context, "Verification Email Sent", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.w(TAG, "sendEmailVerification:failure- "+ task.getException());
-                            Toast.makeText(context, "Error Sending Verification Email.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Error Sending Verification Email. Try again Later", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -167,5 +208,9 @@ public class FirebaseAuthProvider {
 
     public interface OnUserAuthenticationListener {
         void onUserAuthenticated(boolean isAuthenticated);
+    }
+
+    public interface OnUserDeletedListener {
+        void onUserDeleted(boolean isUserDeleted);
     }
 }

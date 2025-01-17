@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.binoydipu.quickstock.services.auth.AuthUser;
+import com.binoydipu.quickstock.services.auth.FirebaseAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +25,7 @@ public class FirebaseCloudStorage {
     private final FirebaseFirestore firestore;
 
     private FirebaseCloudStorage() {
-        FirebaseFirestore.setLoggingEnabled(true);
+//        FirebaseFirestore.setLoggingEnabled(true);
         firestore = FirebaseFirestore.getInstance();
     }
 
@@ -75,15 +76,15 @@ public class FirebaseCloudStorage {
                 if (task.getResult().exists()) {
                     db.delete()
                             .addOnSuccessListener(aVoid -> {
-                                Log.d(TAG, "deleteUserByUserId:success");
+                                Log.d(TAG, "deleteUser from Cloud:success");
                                 listener.onItemDeleted(true); // Notify success
                             })
                             .addOnFailureListener(e -> {
-                                Log.w(TAG, "deleteUserByUserId:failed", e);
+                                Log.w(TAG, "deleteUser from Cloud:failed", e);
                                 listener.onItemDeleted(false); // Notify failure
                             });
                 } else {
-                    Log.w(TAG, "deleteUserByUserId: User not found");
+                    Log.w(TAG, "deleteUser from Cloud: User not found");
                     listener.onItemDeleted(false); // Item doesn't exist
                 }
             } else {

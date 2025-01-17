@@ -1,4 +1,4 @@
-package com.binoydipu.quickstock.views;
+package com.binoydipu.quickstock.views.profile;
 
 import static com.binoydipu.quickstock.constants.ConstantValues.PREF_SWITCH;
 import static com.binoydipu.quickstock.constants.ConstantValues.SWITCH_KEY;

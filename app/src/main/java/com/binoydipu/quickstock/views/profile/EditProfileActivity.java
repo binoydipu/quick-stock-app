@@ -1,4 +1,4 @@
-package com.binoydipu.quickstock.views;
+package com.binoydipu.quickstock.views.profile;
 
 
 import static com.binoydipu.quickstock.constants.RegexPatterns.namePattern;
@@ -113,7 +113,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Discard Change?")
+                .setTitle("Discard Change")
                 .setMessage("Are you sure you want to discard the changes?")
                 .setIcon(R.drawable.quick_stock)
                 .setPositiveButton("Yes", (dialog, which) -> {
