@@ -46,14 +46,11 @@ Follow these steps to set up the QuickStock app on your local machine:
 
 ## Screenshots
 
-### Home Page View
-![Home Page View](assets/screenshots/home_page.jpg)
-
-### Manage Inventory View
-![Manage Inventory View](assets/screenshots/inventory_management.jpg)
-
-### Inventory Report View
-![Inventory Report View](assets/screenshots/inventory_report.jpg)
+<div style="display: flex; justify-content: space-around;">
+  <img src="assets/screenshots/home_page.jpg" alt="Home Page View" width="30%" />
+  <img src="assets/screenshots/inventory_management.jpg" alt="Manage Inventory View" width="30%" />
+  <img src="assets/screenshots/inventory_report.jpg" alt="Inventory Report View" width="30%" />
+</div>
 
 ## Contributing
 
