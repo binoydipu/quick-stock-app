@@ -46,9 +46,14 @@ Follow these steps to set up the QuickStock app on your local machine:
 
 ## Screenshots
 
-![Screenshot_2025-01-18-14-59-18-14_ac1c056630d61367331baa9bed8e6242.jpg](..%2F..%2FAppData%2FLocal%2FPackages%2F5319275A.WhatsAppDesktop_cv1g1gvanyjgm%2FTempState%2FFB1F13DF81C7BEE04D8A083204858880%2FScreenshot_2025-01-18-14-59-18-14_ac1c056630d61367331baa9bed8e6242.jpg)
-![Screenshot_2025-01-18-14-59-48-87_ac1c056630d61367331baa9bed8e6242.jpg](..%2F..%2FAppData%2FLocal%2FPackages%2F5319275A.WhatsAppDesktop_cv1g1gvanyjgm%2FTempState%2FB458B8FEBCEF7E8B854EBDD7EDA80B96%2FScreenshot_2025-01-18-14-59-48-87_ac1c056630d61367331baa9bed8e6242.jpg)
-![Screenshot_2025-01-18-14-59-28-19_ac1c056630d61367331baa9bed8e6242.jpg](..%2F..%2FAppData%2FLocal%2FPackages%2F5319275A.WhatsAppDesktop_cv1g1gvanyjgm%2FTempState%2F0504009E78C51E294B80953CFCA0CF55%2FScreenshot_2025-01-18-14-59-28-19_ac1c056630d61367331baa9bed8e6242.jpg)
+### Home Page View
+![Home Page View](assets/screenshots/home_page.jpg)
+
+### Manage Inventory View
+![Manage Inventory View](assets/screenshots/inventory_management.jpg)
+
+### Inventory Report View
+![Inventory Report View](assets/screenshots/inventory_report.jpg)
 
 ## Contributing
 
