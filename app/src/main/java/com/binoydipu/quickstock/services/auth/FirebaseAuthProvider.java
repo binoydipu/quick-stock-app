@@ -122,8 +122,18 @@ public class FirebaseAuthProvider {
                                     });
 
                                 } else {
-                                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-                                    Log.w(TAG, "Failed to delete user data from Firestore");
+                                    // user is already deleted by admin
+                                    user.delete().addOnCompleteListener(deleteTask -> {
+                                        if (deleteTask.isSuccessful()) {
+                                            Log.d(TAG, "User successfully deleted from Firebase Auth");
+                                            listener.onUserDeleted(true);
+                                        } else {
+                                            Log.w(TAG, "Failed to delete user from Firebase Auth", deleteTask.getException());
+                                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                                            listener.onUserDeleted(false);
+                                        }
+                                    });
+                                    Log.w(TAG, "Failed to delete user data from Firestore, user does not exist in cloud");
                                     listener.onUserDeleted(false);
                                 }
                             });
