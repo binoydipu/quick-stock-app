@@ -27,6 +27,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         // In case of user already logged in
         FirebaseAuthProvider authProvider = FirebaseAuthProvider.getInstance();
         if(authProvider.isUserLoggedIn()) { // user != null
+            // admin email does not need to be verified
             if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL) || authProvider.isUserEmailVerified()) { // user email is verified
                 if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) {
                     Intent intent = new Intent(this, HomeActivity.class);

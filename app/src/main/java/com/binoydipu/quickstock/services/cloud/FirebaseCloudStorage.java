@@ -36,10 +36,10 @@ public class FirebaseCloudStorage {
         return instance;
     }
 
-    public void storeUserInfo(String userId, String name, String id, String email, String mobile,
+    public void storeUserInfo(String userId, String name, String staffId, String email, String mobile,
                               boolean emailVerified, OnUserInfoStoredListener listener) {
         DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
-        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified, false);
+        AuthUser userInfo = new AuthUser(userId, name, staffId, email, mobile, emailVerified, false);
 
         db.set(userInfo)
                 .addOnSuccessListener(aVoid -> {
@@ -52,10 +52,10 @@ public class FirebaseCloudStorage {
                 });
     }
 
-    public void updateUser(String userId, String name, String id, String email, String mobile,
+    public void updateUser(String userId, String name, String staffId, String email, String mobile,
                            boolean emailVerified, boolean staffVerified, OnUserUpdatedListener listener) {
         DocumentReference db = firestore.collection(USER_COLLECTION).document(userId);
-        AuthUser userInfo = new AuthUser(userId, name, id, email, mobile, emailVerified, staffVerified);
+        AuthUser userInfo = new AuthUser(userId, name, staffId, email, mobile, emailVerified, staffVerified);
 
         db.set(userInfo)
                 .addOnSuccessListener(aVoid -> {

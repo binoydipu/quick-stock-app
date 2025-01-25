@@ -79,6 +79,7 @@ public class StaffListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
         staffList = cloudStorage.getAllUsers(this, isReceived -> {
             progressBar.setVisibility(View.GONE);
             if(isReceived) {

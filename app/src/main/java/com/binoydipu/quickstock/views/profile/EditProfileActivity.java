@@ -59,18 +59,15 @@ public class EditProfileActivity extends AppCompatActivity {
             } else if(!namePattern.matcher(name).matches()) {
                 etName.setError("Invalid name. Use letters, space, - and . only");
                 etName.requestFocus();
-            } else if (password.isEmpty()) {
-                etPassword.setError("Required field!");
-                etPassword.requestFocus();
-            } else if(!passwordPattern.matcher(password).matches()) {
-                etPassword.setError("at least a lowercase, a uppercase, a digit, a special character and length[6, 32] required");
-                etPassword.requestFocus();
             } else if (mobile.isEmpty()) {
                 etMobile.setError("Required field!");
                 etMobile.requestFocus();
             } else if(!phonePattern.matcher(mobile).matches()) {
                 etMobile.setError("Invalid Mobile Number");
                 etMobile.requestFocus();
+            } else if (password.isEmpty()) {
+                etPassword.setError("Required field!");
+                etPassword.requestFocus();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 authProvider.isUserAuthenticated(password, isAuthenticated -> { // check if password is correct

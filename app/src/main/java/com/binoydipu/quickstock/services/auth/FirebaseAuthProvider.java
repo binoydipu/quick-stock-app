@@ -139,7 +139,6 @@ public class FirebaseAuthProvider {
         }
     }
 
-
     public void logIn(Context context, String email, String password, OnLoginEventListener listener) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {

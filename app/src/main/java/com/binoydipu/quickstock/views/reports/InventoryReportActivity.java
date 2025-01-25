@@ -226,11 +226,11 @@ public class InventoryReportActivity extends AppCompatActivity {
 
         // Table Headers
         canvas.drawText(String.format("%-15s %-10s %-12s %-12s %-12s %-12s %-12s", "Item", "Code", "Purchase", "Sale", "Quantity", "Stock Value", "Expiry Date"), x, y, columnTitlePaint);
-        y += 20; // Move to next line for content
+        y += 20;
 
         // Draw a line separator
         canvas.drawLine(x, y, 595 - 50, y, paint);
-        y += 20; // Move to next line
+        y += 20;
 
         SimpleDateFormat expiryDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
@@ -282,7 +282,6 @@ public class InventoryReportActivity extends AppCompatActivity {
 
         y += 20; // Move to next line for the next item
 
-        // Draw a line separator
         canvas.drawLine(x, y, 595 - 50, y, paint);
         y += 20; // Move to next line
 
@@ -318,7 +317,7 @@ public class InventoryReportActivity extends AppCompatActivity {
             try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
                 pdfDocument.writeTo(outputStream);
                 pdfDocument.close();
-                Toast.makeText(this, "PDF Created in Downloads Folder", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "PDF saved in Downloads Folder", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(this, "Unable to create PDF", Toast.LENGTH_SHORT).show();
                 Log.e("InventoryReportActivity:error generating pdf- ", e.toString());

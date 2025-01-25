@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // In case of user already logged in
-        progressBar = findViewById(R.id.progress_circular);
         if(authProvider.isUserLoggedIn()) { // user != null
             if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL) || authProvider.isUserEmailVerified()) { // user email is verified
                 if(authProvider.getCurrentUserEmail().equals(ADMIN_EMAIL)) {
@@ -134,7 +133,6 @@ public class RegisterActivity extends AppCompatActivity {
                         cloudStorage.storeUserInfo(userStatus, name, id, email, mobile, authProvider.isUserEmailVerified(), isInfoStored -> {
                             getOnBackPressedDispatcher().onBackPressed();
                             authProvider.logOut();
-//                            finish();
                         });
                     }
                 });
